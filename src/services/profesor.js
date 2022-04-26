@@ -13,7 +13,7 @@ export const profesorService = {
   
     const requestOptions = {
       method: 'POST',
-      mode: 'no-cors',
+      mode: 'cors',
       //credentials: 'include',
       headers: getUrlEncodedAuthHeaders(),
       body: generateEncodedBody(details),
