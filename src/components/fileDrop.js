@@ -18,6 +18,7 @@ function FileDrop(props) {
 
 
   const onDrop = useCallback(acceptedFiles => {
+    console.log(acceptedFiles)
     if (acceptedFiles.length) {
       parseFile(acceptedFiles[0]);
       console.log(parsedCsvData);
@@ -32,10 +33,10 @@ function FileDrop(props) {
     try {
       const response = await
         profesorService.createProfesor(data);
-      //console.log("profesor agregado")
+      console.log("profesor agregado")
     } catch (error) {
-      //console.log("error agregando profesor")
-      //console.log(error);
+      console.log("error agregando profesor")
+      console.log(error);
     }
   }
   const {
