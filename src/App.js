@@ -7,6 +7,7 @@ import { Layout } from "antd";
 import Navbar from "./components/Navbar";
 import { useEffect } from "react";
 import { Route, Routes, Navigate, BrowserRouter } from "react-router-dom";
+import Inicio from "./pages/Inicio";
 const { Content } = Layout;
 
 function App() {
@@ -20,8 +21,8 @@ function App() {
           <Content style={{ padding: "0 50px" }}>
             <div className="site-layout-content">
               <Routes>
-                <Route path="*" element={<Navigate to="/profesor" replace />} />
-                <Route path="/inicio" element={<Profesores/>} />
+                <Route path="/" element={<Navigate to="/inicio" replace />} />
+                <Route path="/inicio" element={<Inicio/>} />
                 <Route path="/profesor" element={<Profesores />} end />
                 <Route path="/materia" element={<Materias />} />
                 {/* <Route path="/reportes" element={<Reportes/>} />

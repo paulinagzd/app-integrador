@@ -5,21 +5,29 @@ import { Link } from "react-router-dom";
 const { Title } = Typography;
 
 export default function Navbar() {
-  const [title, setTitle] = useState("Inicio");
-  const [state, setState] = useState("/"+title.toLowerCase());
+  const tabTitleDict = {
+    inicio: "Inicio",
+    profesor: "Profesores",
+    materia: "Materias",
+    reporte: "Reportes",
+    admin: "Admin",
+  };
 
-  // useEffect((e) =>{
-  //   window.location.pathname = state;
-  //   e.preventDefault();
-  // },[title])
+  useEffect(() => {
+    if (window.location.pathname.substring(1).length === 0) {
+      setTab("inicio");
+      setTitle(tabTitleDict["inicio"]);
+    }
+  }, []);
 
-  //prevent navbar from restarting when press refresh button
+  const [tab, setTab] = useState(window.location.pathname.substring(1));
+  const [title, setTitle] = useState(tabTitleDict[tab]);
 
   return (
     <Fragment>
       <Menu
         mode="horizontal"
-        defaultSelectedKeys={["inicio"]}
+        defaultSelectedKeys={tab || "inicio"}
         style={{
           display: "block",
           width: 550,
@@ -28,33 +36,38 @@ export default function Navbar() {
           backgroundColor: "transparent",
         }}
       >
-        <Menu.Item key="inicio">
+        <Menu.Item
+          key="inicio"
+          onClick={() => {
+            setTitle("Inicio");
+          }}
+        >
           <Link to="/inicio">
-            <Title
-              strong
-              level={5}
-              style={{ color: "orange" }}
-              onClick={() => setTitle("Inicio")}
-            >
+            <Title strong level={5} style={{ color: "orange" }}>
               Inicio
             </Title>
           </Link>
         </Menu.Item>
-        <Menu.Item key="profesores" onClick={() => setTitle("Profesores")}>
+        <Menu.Item key="profesor" onClick={() => setTitle("Profesores")}>
           <Link to="/profesor">
             <Title strong level={5} style={{ color: "orange" }}>
               Profesores
             </Title>
           </Link>
         </Menu.Item>
-        <Menu.Item key="materias" onClick={() => setTitle("Materias")}>
+        <Menu.Item
+          key="materia"
+          onClick={() => {
+            setTitle("Materias");
+          }}
+        >
           <Link to="/materia">
             <Title strong level={5} style={{ color: "orange" }}>
               Materias
             </Title>
           </Link>
         </Menu.Item>
-        <Menu.Item key="reportes" onClick={() => setTitle("Reportes")}>
+        <Menu.Item key="reporte" onClick={() => setTitle("Reportes")}>
           <Link to="/reportes">
             <Title strong level={5} style={{ color: "orange" }}>
               Reportes
