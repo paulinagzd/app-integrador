@@ -38,27 +38,7 @@ async function getAllProfesores() {
     mode: "cors",
   };
 
-<<<<<<< HEAD
-  async function createProfesor(data) {
-    const details = data;
-  
-    const requestOptions = {
-      method: 'POST',
-      mode: 'cors',
-      //credentials: 'include',
-      headers: getUrlEncodedAuthHeaders(),
-      body: generateEncodedBody(details),
-    };
-    
-    return fetch(`${config.apiUrl}/profesor`, requestOptions)
-      .then(handleResponse)
-      .then(profesorRes => {
-        console.log(`Created profesor: ${profesorRes}`);
-      });
-  }
-=======
   const res = await fetch(`${config.apiUrl}/profesor`, requestOptions);
   const data = await handleResponse(res);
   return data;
 }
->>>>>>> main
