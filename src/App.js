@@ -1,5 +1,5 @@
 import "./App.css";
-import FileDrop from "./components/fileDrop";
+import Upload from './components/upload';
 import Profesores from "./pages/Profesores";
 import Materias from "./pages/Materias";
 import Inicio from "./pages/Inicio";
@@ -26,6 +26,9 @@ function App() {
                 <Route path="/materia" element={<Materias />} />
                 <Route path="/reporte" element={<Reportes />} />
                 {/* <Route path="/admin" element={<Admin/>} />  */}
+                <Route path="/upload" element={<Upload />} />
+                {/* <Route path="/reportes" element={<Reportes/>} />
+                <Route path="/admin" element={<Admin/>} /> */}
               </Routes>
 
               {/* <Profesores /> */}
