@@ -1,4 +1,10 @@
   
+.Upload {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 .dropzone {
     background-color: #fafafa;    
     display: flex;

@@ -1,6 +1,5 @@
 import "./App.css";
-import FileDrop from "./components/fileDrop";
-import DropDown from './components/dropDown';
+import Upload from './components/upload';
 import Profesores from "./pages/Profesores";
 import Materias from "./pages/Materias";
 import "antd/dist/antd.css";
@@ -27,6 +26,7 @@ function App() {
                 <Route path="/inicio" element={<Inicio/>} />
                 <Route path="/profesor" element={<Profesores />} end />
                 <Route path="/materia" element={<Materias />} />
+                <Route path="/upload" element={<Upload />} />
                 {/* <Route path="/reportes" element={<Reportes/>} />
                 <Route path="/admin" element={<Admin/>} /> */}
               </Routes>
