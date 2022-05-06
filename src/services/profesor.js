@@ -13,16 +13,37 @@ export const profesorService = {
   getProfesorIdByEspecialidadId,
   getProfesorById,
   getMateriasBloqueadasById,
-  getProfesorIdByTipoContrato
+  getProfesorIdByTipoContrato,
   // editProfesor,
+  editProfesor,
   // deleteProfesor,
 };
+
+
+async function editProfesor(data, id) {
+  const details = data;
+
+  const requestOptions = {
+    method: "PUT",
+    mode: "cors",
+    //credentials: 'include',
+    headers: getUrlEncodedAuthHeaders(),
+    body: generateEncodedBody(details),
+  };
+
+  return fetch(`${config.apiUrl}/profesor/${id}`, requestOptions)
+    .then(handleResponse)
+    .then((profesorRes) => {
+      console.log(`Edited profesor: ${profesorRes}`);
+    });
+}
 
 
 async function getAllProfesores() {
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    //credentials: 'include',
   };
 
   const res = await fetch(`${config.apiUrl}/profesor`, requestOptions);
