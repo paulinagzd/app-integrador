@@ -1,9 +1,9 @@
-import { Fragment, useCallback, useEffect, useState } from "react";
-import { Button, Tag, Table, Space} from "antd";
+import { Fragment, useCallback, useEffect, useState, useRef } from "react";
+import { Tag, Table, Space} from "antd";
 import "antd/dist/antd.less";
-import { PlusOutlined } from "@ant-design/icons";
 import { profesorService } from "../services/profesor";
-import { openSection } from "../helpers/utility";
+import ModalPage from "../components/ModalPage/ModalPage";
+import { filterService } from "../services/filter";
 
 const colorSelection = (color) => {
   color = color.toLowerCase();
@@ -12,55 +12,63 @@ const colorSelection = (color) => {
       return "green";
     case "stand-by":
       return "green";
+    case "en contratación":
+      return "green";
     default:
       return "red";
   }
 };
 
 const Profesores = () => {
+  const [chosenProfesores, setChosenProfesores] = useState([]);
   const [profesorInfo, setProfesorInfo] = useState([]);
+  const searchInput = useRef("");
 
   const columns = [
     {
       title: "Nómina",
       dataIndex: "nomina",
+      ...filterService.getColumnSearchProps("nomina", searchInput),
     },
     {
       title: "Nombre",
       dataIndex: "nombre",
+      ...filterService.getColumnSearchProps("nombre", searchInput),
     },
     {
       title: "Correo",
-      dataIndex: "correo",
+      dataIndex: "correo_institucional",
+      ...filterService.getColumnSearchProps("correo_institucional", searchInput),
     },
     {
       title: "Estatus",
-      dataIndex: "estatus",
-      render: (estatus, index) => (
+      dataIndex: "estatus_interno",
+      render: (estatus, index) => {
+        return (
         <>
           <Tag color={colorSelection(estatus)} key={index}>
             {estatus.toUpperCase()}
           </Tag>
         </>
-      ),
+      )},
+      ...filterService.getColumnSearchProps("estatus_interno", searchInput),
     },
     {
       title: "Operación",
       dataIndex: "operacion",
       render: (text, record, index) => (
         <>
-          <Button
-            style={{ color: "#eb2f96", borderColor: "white" }}
-            onClick={openSection.bind(this, profesorInfo[index].id, "editar")}
-          >
-            {"Editar"}
-          </Button>
-          <Button
-            style={{ color: "gray", borderColor: "white" }}
-            onClick={openSection.bind(this, profesorInfo[index].id, "detalle")}
-          >
-            {"Detalle"}
-          </Button>
+          <ModalPage
+            type={'profesor'}
+            action={'edit'}
+            payload={profesorInfo[index]}
+          />
+          <ModalPage
+            type={'profesor'}
+            action={'detail'}
+            payload={profesorInfo[index]}
+          />
+          {/* onClick={openSection.bind(this, profesorInfo[index].id, "editar")} */}
         </>
       ),
     },
@@ -68,18 +76,10 @@ const Profesores = () => {
   const dataFetchProfesoresHandler = useCallback(async () => {
     try {
       const data = await profesorService.getAllProfesores();
-      console.log(data);
       const loadedProfesores = [];
 
       for (const key in data) {
-        loadedProfesores.push({
-          id: data[key].id,
-          nomina: data[key].nomina,
-          nombre: data[key].nombre,
-          correo: data[key].correo_institucional,
-          estatus: data[key].estatus_interno,
-          //Faltan los otros atributos; ponerlos aqui o en modal?
-        });
+        loadedProfesores.push({...data[key]});
       }
       setProfesorInfo(loadedProfesores);
     } catch (error) {
@@ -87,30 +87,42 @@ const Profesores = () => {
     }
   }, []);
 
+  const onDeleteOk = () => {
+    chosenProfesores.forEach((e) => console.log(e, "map classes"));
+    console.log(chosenProfesores);
+  };
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      setChosenProfesores(selectedRows.map((sr) => sr.nomina));
+    },
+  };
+
   useEffect(() => {
     dataFetchProfesoresHandler();
   }, [dataFetchProfesoresHandler]);
 
   return (
-    <Fragment>
+      <Fragment>
       <Space
         direction="horizontal"
         style={{ width: "100%", justifyContent: "right" }}
       >
-        <Button
-          size="small"
-          shape="round"
-          style={{
-            color: "#eb2f96",
-            borderColor: "white",
-            marginBottom: "10px",
-          }}
-          icon={<PlusOutlined />}
-        >
-          Agregar profesor
-        </Button>
+        <ModalPage
+          type={'profesor'}
+          action={'add'}
+          onDeleteOk={onDeleteOk}
+        />
       </Space>
-      <Table dataSource={profesorInfo} columns={columns} rowKey="id" />
+      {
+        profesorInfo.length > 0
+          ? ( <Table  rowSelection={{
+            type: "checkbox",
+            ...rowSelection,
+          }} dataSource={profesorInfo} columns={columns} rowKey="id" /> ) 
+          : undefined
+      }
+     
     </Fragment>
   );
 };
