@@ -5,15 +5,18 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { Button,  Table, Space } from "antd";
-import { especialidadService } from "../services/especialidad";
-import { filterService } from "../services/filter";
+import { Button,  Table, Space,Switch, } from "antd";
+import { especialidadService } from "../../services/especialidad";
+import { filterService } from "../../services/filter";
+import OnFilterProfesor from "./OnFilterProfesor";
 
 export default function EspecialidadFilter() {
-  const [chosenEspecialidades, setChosenEspecialidades] = useState([]);
+  const [chosenEspecialidades, setChosenEspecialidades] = useState("");
   const [especialidadInfo, setEspecialidadInfo] = useState([]);
+  const [visualizador, setVisualizador] = useState(false);
 
   const searchInput = useRef("");
+
   const dataFetchEspecialidadesHandler = useCallback(async () => {
     try {
       const data = await especialidadService.getAllEspecialidades();
@@ -29,24 +32,16 @@ export default function EspecialidadFilter() {
   }, []);
 
   const mapEspecialidades = () => {
-    chosenEspecialidades.forEach((e) => console.log(e, "map especialidades"));
     console.log(chosenEspecialidades);
   };
 
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      setChosenEspecialidades(selectedRows.map((sr) => sr.nombre));
+      setChosenEspecialidades(selectedRows[0].id);
     },
   };
 
   const columns = [
-    {
-      title: "Id",
-      dataIndex: "id",
-      key: "id",
-      width: "30%",
-      ...filterService.getColumnSearchProps("id", searchInput),
-    },
     {
       title: "Nombre",
       dataIndex: "nombre",
@@ -59,6 +54,10 @@ export default function EspecialidadFilter() {
   useEffect(() => {
     dataFetchEspecialidadesHandler();
   }, [dataFetchEspecialidadesHandler]);
+
+  function onChange() {
+    setVisualizador(!visualizador);
+  }
   
   return (
     <Fragment>
@@ -68,7 +67,7 @@ export default function EspecialidadFilter() {
       >
         <Table
           rowSelection={{
-            type: "checkbox",
+            type: "radio",
             ...rowSelection,
           }}
           dataSource={especialidadInfo}
@@ -76,6 +75,16 @@ export default function EspecialidadFilter() {
           rowKey="id"
           style={{ width: "100%", justifyContent: "center" }}
         />
+          <span>
+       Visualizar cambios
+        <Switch
+          checkedChildren="Si"
+          unCheckedChildren="No"
+          onChange={onChange}
+          style={{ marginLeft: "5px" }}
+        />
+         </span> 
+        <div>{visualizador ? <OnFilterProfesor chosenEspecialidades = {chosenEspecialidades}/> : null}</div>
         <Button onClick={mapEspecialidades}>Generar reporte</Button>
       </Space>
     </Fragment>

@@ -10,6 +10,10 @@ import { config } from "../config";
 export const profesorService = {
   createProfesor,
   getAllProfesores,
+  getProfesorIdByMateriaId,
+  getProfesorIdByEspecialidadId,
+  getProfesorById,
+  getMateriasBloqueadasById,
   // editProfesor,
   // deleteProfesor,
 };
@@ -39,6 +43,51 @@ async function getAllProfesores() {
   };
 
   const res = await fetch(`${config.apiUrl}/profesor`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
+
+async function getProfesorIdByMateriaId(materiaId){
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
+
+  const res = await fetch(`${config.apiUrl}/materia_impartida/${materiaId}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
+
+async function getProfesorIdByEspecialidadId(especialidadId){
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
+
+  const res = await fetch(`${config.apiUrl}/tema_especialidad_profesor/${especialidadId}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
+
+async function getProfesorById(profesorId){
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
+
+  const res = await fetch(`${config.apiUrl}/profesor/id/${profesorId}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
+
+
+async function getMateriasBloqueadasById(profesorId){
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
+
+  const res = await fetch(`${config.apiUrl}/materia_bloqueada/${profesorId}`, requestOptions);
   const data = await handleResponse(res);
   return data;
 }

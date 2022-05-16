@@ -6,8 +6,8 @@ import React, {
   useEffect,
 } from "react";
 import { Button,  Table, Space } from "antd";
-import { especialidadService } from "../services/especialidad";
-import { filterService } from "../services/filter";
+import { especialidadService } from "../../services/especialidad";
+import { filterService } from "../../services/filter";
 
 export default function ContratoFilter() {
   const [chosenContratos, setChosenContratos] = useState([]);

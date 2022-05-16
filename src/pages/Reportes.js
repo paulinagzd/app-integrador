@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Select, Typography } from "antd";
 import "antd/dist/antd.less";
-import MateriaFilter from "../components/MateriaFilter";
-import EspecialidadFilter from "../components/EspecialidadFilter";
-import ContratoFilter from "../components/ContratoFilter";
+import MateriaFilter from "../components/Filter/MateriaFilter";
+import EspecialidadFilter from "../components/Filter/EspecialidadFilter";
+import ContratoFilter from "../components/Filter/ContratoFilter";
 const { Title } = Typography;
 const { Option } = Select;
 
