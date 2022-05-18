@@ -20,12 +20,12 @@ export default function MateriaFilter() {
   const dataFetchMateriasHandler = useCallback(async () => {
     try {
       const data = await materiaService.getAllMaterias();
-      const loadedProfesores = [];
+      const loadedMaterias = [];
 
       for (const key in data) {
-        loadedProfesores.push({ ...data[key] });
+        loadedMaterias.push({ ...data[key] });
       }
-      setMateriaInfo(loadedProfesores);
+      setMateriaInfo(loadedMaterias);
     } catch (error) {
       console.log(error);
     }

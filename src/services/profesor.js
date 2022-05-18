@@ -14,6 +14,7 @@ export const profesorService = {
   getProfesorIdByEspecialidadId,
   getProfesorById,
   getMateriasBloqueadasById,
+  getProfesorIdByTipoContrato
   // editProfesor,
   // deleteProfesor,
 };
@@ -53,7 +54,7 @@ async function getProfesorIdByMateriaId(materiaId){
     mode: "cors",
   };
 
-  const res = await fetch(`${config.apiUrl}/materia_impartida/${materiaId}`, requestOptions);
+  const res = await fetch(`${config.apiUrl}/materia_impartida/materia/${materiaId}`, requestOptions);
   const data = await handleResponse(res);
   return data;
 }
@@ -65,6 +66,17 @@ async function getProfesorIdByEspecialidadId(especialidadId){
   };
 
   const res = await fetch(`${config.apiUrl}/tema_especialidad_profesor/${especialidadId}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
+
+async function getProfesorIdByTipoContrato(tipoContrato){
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
+
+  const res = await fetch(`${config.apiUrl}/profesor/porContrato/${tipoContrato}`, requestOptions);
   const data = await handleResponse(res);
   return data;
 }

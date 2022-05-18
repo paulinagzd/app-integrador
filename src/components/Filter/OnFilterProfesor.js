@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useState} from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { Table, Space, Collapse } from "antd";
 import "antd/dist/antd.less";
 import { profesorService } from "../../services/profesor";
@@ -73,25 +73,23 @@ const OnFilterProfesor = (props) => {
 
   const dataFetchProfesoresHandler = useCallback(async () => {
     try {
-
-
-      if(!props.chosenMaterias && !props.chosenEspecialidades) {
+      if (!props.chosenMaterias && !props.chosenEspecialidades) {
         return;
       }
       //Obtiene ids de los profesores
       let profesoresId;
       //Materias
-       if (props.chosenMaterias){
-         profesoresId = (
+      if (props.chosenMaterias) {
+        profesoresId = (
           await profesorService.getProfesorIdByMateriaId(props.chosenMaterias)
         ).map((row) => {
           return row.id_profesor;
         });
       }
-      
+
       //Especialidades
       if (props.chosenEspecialidades) {
-         profesoresId = (
+        profesoresId = (
           await profesorService.getProfesorIdByEspecialidadId(
             props.chosenEspecialidades
           )
@@ -100,8 +98,7 @@ const OnFilterProfesor = (props) => {
         });
       }
 
-
-      console.log(profesoresId, "profesores")
+      console.log(profesoresId, "profesores");
       //Obtiene los registros de los profesores segun los ids indicados
       const profesorRows = await Promise.all(
         profesoresId.map(async (key) => {
@@ -120,7 +117,6 @@ const OnFilterProfesor = (props) => {
               }
 
               materiasBloqueadas[profesoresId[idx]].push(row.id_materia);
-              // console.log(materiasBloqueadas[profesoresId[idx]], "howdy");
               return materiasBloqueadas;
             }
           );
@@ -151,13 +147,12 @@ const OnFilterProfesor = (props) => {
       let loadedProfesores = [];
       for (const key in profesorRows) {
         let binToString;
-
-        if (profesorRows[key][0].clase_en_ingles === true) {
+        let rows = { ...profesorRows[key][0] };
+        if (rows.clase_en_ingles === true) {
           binToString = "Si";
         } else {
           binToString = "No";
         }
-        let rows = { ...profesorRows[key][0] };
         rows.clase_en_ingles = binToString;
         rows["materia_bloqueada"] = codigoMaterias[rows.id];
         loadedProfesores.push(rows);
@@ -181,7 +176,11 @@ const OnFilterProfesor = (props) => {
       ></Space>
       {profesorInfo.length > 0 ? (
         <Table dataSource={profesorInfo} columns={columns} rowKey="id" />
-      ) : <h3 style={{ color: "red" }}>Ningun profesor cumple con el criterio escogido</h3>}
+      ) : (
+        <h3 style={{ color: "red" }}>
+          Ningun profesor cumple con el criterio escogido
+        </h3>
+      )}
     </Fragment>
   );
 };

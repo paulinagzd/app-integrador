@@ -20,12 +20,12 @@ export default function EspecialidadFilter() {
   const dataFetchEspecialidadesHandler = useCallback(async () => {
     try {
       const data = await especialidadService.getAllEspecialidades();
-      const loadedProfesores = [];
+      const loadedEspecialidades = [];
 
       for (const key in data) {
-        loadedProfesores.push({ ...data[key] });
+        loadedEspecialidades.push({ ...data[key] });
       }
-      setEspecialidadInfo(loadedProfesores);
+      setEspecialidadInfo(loadedEspecialidades);
     } catch (error) {
       console.log(error);
     }
