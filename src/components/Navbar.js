@@ -68,7 +68,7 @@ export default function Navbar() {
           </Link>
         </Menu.Item>
         <Menu.Item key="reporte" onClick={() => setTitle("Reportes")}>
-          <Link to="/reportes">
+          <Link to="/reporte">
             <Title strong level={5} style={{ color: "orange" }}>
               Reportes
             </Title>

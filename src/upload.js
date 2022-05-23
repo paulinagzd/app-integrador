@@ -67,7 +67,7 @@ function Upload() {
 
   const onDrop = useCallback(acceptedFiles => {
     if (acceptedFiles.length) {
-      console.log("Acepted Files: ", acceptedFiles);
+      //console.log("Acepted Files: ", acceptedFiles);
       //console.log("File: ", acceptedFiles[0]);
       parseFile(acceptedFiles[0]);
       console.log("Parsed CSV: ", parsedCsvData);
