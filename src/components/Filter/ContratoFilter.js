@@ -5,30 +5,16 @@ import React, {
   useCallback,
   useEffect,
 } from "react";
-import { Button, Table, Space, Switch } from "antd";
+import {Table, Space, Switch, AutoComplete } from "antd";
 import { filterService } from "../../services/filter";
 import OnFilterProfesorTipoContrato from "./OnFilterProfesorTipoContrato";
+import { CSVLink } from "react-csv";
 
 export default function ContratoFilter() {
-  const [chosenContratos, setChosenContratos] = useState("");
-  // const [contratoInfo, setContratoInfo] = useState([]);
-  const [visualizador, setVisualizador] = useState(false);
+  const [chosenContrato, setChosenContrato] = useState("");
+  const [visualizador, setVisualizador] = useState(true);
 
   const searchInput = useRef("");
-
-  // const dataFetchContratosHandler = useCallback(async () => {
-  //   try {
-  //     const data = await materiaService.getAllMaterias();
-  //     const loadedProfesores = [];
-
-  //     for (const key in data) {
-  //       loadedProfesores.push({ ...data[key] });
-  //     }
-  //     setContratoInfo(loadedProfesores);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, []);
 
   const contratoInfo = [
     { id: 1, key: 1, tipo: "Planta" },
@@ -54,13 +40,9 @@ export default function ContratoFilter() {
     "Otro Campus": "otroCampus",
   };
 
-  const mapContratos = () => {
-    console.log(chosenContratos);
-  };
-
   const rowSelection = {
     onChange: (selectedRowKeys, selectedRows) => {
-      setChosenContratos(traducirFrontAMySQL[selectedRows[0].tipo]);
+      setChosenContrato(traducirFrontAMySQL[selectedRows[0].tipo]);
     },
   };
 
@@ -82,13 +64,56 @@ export default function ContratoFilter() {
     setVisualizador(!visualizador);
   }
 
+  // Search input///////////////////////////////////////////////////////////////
+  const displayContratoOptions = () => {
+    let contratoValues = [];
+    let contratoTipoIdMap = {};
+    for (const key in contratoInfo) {
+      contratoValues.push({
+        key: contratoInfo[key].id,
+        value: contratoInfo[key].tipo,
+      });
+      contratoTipoIdMap[contratoInfo[key].tipo] = contratoInfo[key].id;
+    }
+    setContratoList(contratoValues);
+  };
+
+  const [contratoList, setContratoList] = useState("");
+
+  const onSelect = (tipo) => {
+    setChosenContrato(traducirFrontAMySQL[tipo]);
+  };
+
+  useEffect(() => {
+    displayContratoOptions();
+  }, [chosenContrato]);
+
+  //Formateo y descarga a CSV de los datos filtrados
+  const [profesorInfo, setProfesorInfo] = useState([]);
+
+  const headers = [
+    { label: "Nómina", key: "nomina" },
+    { label: "Nombre", key: "nombre" },
+    { label: "Correo", key: "correo_institucional" },
+    { label: "Tipo de Contrato", key: "tipo" },
+    { label: "Unidades de Carga Máximas", key: "unidades_de_carga_max" },
+  ];
+
+  const csvResport = {
+    filename: "reporteProfesoresPorEspecialidad.csv",
+    headers: headers,
+    data: profesorInfo,
+  };
+
+  //////////////////////////////////////
+
   return (
     <Fragment>
       <Space
         direction="vertical"
         style={{ marginTop: "50px", justifyContent: "center" }}
       >
-        <Table
+        {/* <Table
           rowSelection={{
             type: "radio",
             ...rowSelection,
@@ -97,22 +122,55 @@ export default function ContratoFilter() {
           columns={columns}
           rowKey="id"
           style={{ width: "100%", justifyContent: "center" }}
-        />
+        /> */}
+        <span>
+          Seleccionar tipo de contrato:
+          <AutoComplete
+            style={{
+              marginLeft: "10px",
+              marginBottom: "15px",
+              width: 200,
+            }}
+            onSelect={onSelect}
+            placeholder="Seleccionar opción:"
+            dropdownMatchSelectWidth={200}
+            options={contratoList}
+            filterOption={(inputValue, option) =>
+              option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !==
+              -1
+            }
+            allowClear
+          />
+        </span>
         <span>
           Visualizar cambios
           <Switch
             checkedChildren="Si"
             unCheckedChildren="No"
             onChange={onChange}
-            style={{ marginLeft: "5px" }}
+            defaultChecked
+            style={{ marginLeft: "5px", marginRight: "15px" }}
           />
+          <CSVLink
+            {...csvResport}
+            style={{
+              background: "white",
+              border: "1px solid lightblue",
+              padding: "4px",
+            }}
+          >
+            Generar reporte
+          </CSVLink>
         </span>
         <div>
           {visualizador ? (
-            <OnFilterProfesorTipoContrato chosenContratos={chosenContratos} />
+            <OnFilterProfesorTipoContrato
+              chosenContrato={chosenContrato}
+              profesorInfo={profesorInfo}
+              onChange={(value) => setProfesorInfo(value)}
+            />
           ) : null}
         </div>
-        <Button onClick={mapContratos}>Generar reporte</Button>
       </Space>
     </Fragment>
   );

@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { Table, Space, Collapse } from "antd";
+import { Table, Space, Collapse} from "antd";
 import "antd/dist/antd.less";
 import { profesorService } from "../../services/profesor";
 import { materiaService } from "../../services/materia";
@@ -8,7 +8,7 @@ const { Panel } = Collapse;
 
 const OnFilterProfesor = (props) => {
   const [profesorInfo, setProfesorInfo] = useState([]);
-
+  
   const columns = [
     {
       title: "Nómina",
@@ -73,25 +73,25 @@ const OnFilterProfesor = (props) => {
 
   const dataFetchProfesoresHandler = useCallback(async () => {
     try {
-      if (!props.chosenMaterias && !props.chosenEspecialidades) {
+      if (!props.chosenMateria && !props.chosenEspecialidad) {
         return;
       }
       //Obtiene ids de los profesores
       let profesoresId;
       //Materias
-      if (props.chosenMaterias) {
+      if (props.chosenMateria) {
         profesoresId = (
-          await profesorService.getProfesorIdByMateriaId(props.chosenMaterias)
+          await profesorService.getProfesorIdByMateriaId(props.chosenMateria)
         ).map((row) => {
           return row.id_profesor;
         });
       }
 
       //Especialidades
-      if (props.chosenEspecialidades) {
+      if (props.chosenEspecialidad) {
         profesoresId = (
           await profesorService.getProfesorIdByEspecialidadId(
-            props.chosenEspecialidades
+            props.chosenEspecialidad
           )
         ).map((row) => {
           return row.id_profesor;
@@ -153,16 +153,18 @@ const OnFilterProfesor = (props) => {
         } else {
           binToString = "No";
         }
+        rows.id = rows.id.toString();
+        rows.unidades_de_carga_max = rows.unidades_de_carga_max.toString();
         rows.clase_en_ingles = binToString;
         rows["materia_bloqueada"] = codigoMaterias[rows.id];
         loadedProfesores.push(rows);
       }
-
+      props.onChange(loadedProfesores);
       setProfesorInfo(loadedProfesores);
     } catch (error) {
       console.log(error);
     }
-  }, [props.chosenMaterias, props.chosenEspecialidades]);
+  }, [props.chosenMateria, props.chosenEspecialidad]);
 
   useEffect(() => {
     dataFetchProfesoresHandler();
