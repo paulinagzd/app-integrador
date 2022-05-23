@@ -1,7 +1,7 @@
 import './upload.css'
 import { Menu, Dropdown, message, Space } from 'antd';
 import { DownOutlined, MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
-import {React, useState, useCallback} from 'react';
+import {React, useState, useCallback, useEffect} from 'react';
 import {useDropzone} from 'react-dropzone';
 import Papa from 'papaparse';
 import { createService } from '../services/create';
@@ -64,19 +64,23 @@ function Upload() {
     });
   };
 
-
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = acceptedFiles => {
     if (acceptedFiles.length) {
       console.log("Acepted Files: ", acceptedFiles);
       console.log("File: ", acceptedFiles[0]);
       parseFile(acceptedFiles[0]);
+    }
+  };
+
+  useEffect(() => {
+    if (parsedCsvData.length){
       console.log("Parsed CSV: ", parsedCsvData);
       for(var x in parsedCsvData){
         console.log(parsedCsvData[x])
         create(parsedCsvData[x]);
       }
     }
-  }, []);
+  }, [parsedCsvData]);
 
   const create = async (data) => {
     try {
@@ -136,6 +140,7 @@ function Upload() {
     isDragReject,
   } = useDropzone({
     onDrop,
+    //onDropAccepted,
     accept: 'text/csv',
   });
 
