@@ -68,7 +68,7 @@ function Upload() {
   const onDrop = useCallback(acceptedFiles => {
     if (acceptedFiles.length) {
       console.log("Acepted Files: ", acceptedFiles);
-      //console.log("File: ", acceptedFiles[0]);
+      console.log("File: ", acceptedFiles[0]);
       parseFile(acceptedFiles[0]);
       console.log("Parsed CSV: ", parsedCsvData);
       for(var x in parsedCsvData){
@@ -114,9 +114,6 @@ function Upload() {
           response = await
           createService.createMateriasImpartidas(data);
           console.log("Materia Impartida Creada Con Exito");
-          //response = await
-          //createService.createECOA(data);
-          //console.log("ECOA Creada Con Exito");
           break;
         case '7':
           response = await
