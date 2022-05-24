@@ -52,7 +52,7 @@ const OnFilterProfesorTipoContrato = (props) => {
     try {
       //Obtiene ids de los profesores
       const profesoresId = (
-        await profesorService.getProfesorIdByTipoContrato(props.chosenContratos)
+        await profesorService.getProfesorIdByTipoContrato(props.chosenContrato)
       ).map((row) => {
         return row.id;
       });
@@ -67,15 +67,18 @@ const OnFilterProfesorTipoContrato = (props) => {
       let loadedProfesores = [];
       for (const key in profesorRows) {
         let rows = { ...profesorRows[key][0] };
+        rows.id = rows.id.toString();
+        rows.unidades_de_carga_max = rows.unidades_de_carga_max.toString();
         rows.tipo = traducirMySQLAFRONT[rows.tipo];
         loadedProfesores.push(rows);
       }
 
+      props.onChange(loadedProfesores);
       setProfesorInfo(loadedProfesores);
     } catch (error) {
       console.log(error);
     }
-  }, [props.chosenContratos]);
+  }, [props.chosenContrato]);
 
   useEffect(() => {
     dataFetchProfesoresHandler();
