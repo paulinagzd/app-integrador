@@ -7,25 +7,6 @@ import { filterService } from "../services/filter";
 import { subjectTypes } from "../constants/subject";
 import { openSection } from "../helpers/utility";
 
-const typeToLabel = (type) => {
-  switch(type) {
-    case 'bloque':
-      return 'Bloque';
-    case 'materia':
-      return 'Materia';
-    default:
-      return 'Semana Tec';
-  }
-}
-
-const planToLabel = (plan) => {
-  switch(plan) {
-    case 'Tec20':
-      return 'Tec 20';
-    default:
-      return 'Tec 21';
-  }
-}
 
 const typeToLabel = (type) => {
   switch(type) {

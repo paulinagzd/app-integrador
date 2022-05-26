@@ -14,12 +14,13 @@ export function generateEncodedBody(details) {
 export function handleResponse(response) {
   if (response.ok) {
       return response.json();
+  } else {
+    return response.json().then(function(error){
+      throw new Error(`${error.errors[0].message} at ${error.errors[0].path} ${error.errors[0].value}`)
+      //throw new Error(`${error.original.code}: ${JSON.stringify(error.errors[0])}`)
+      //throw new Error(error);
+    });
   }
-  
-  return response.json().catch(( code, message) => {
-    // Got valid JSON with error response, use it
-    throw new Error(`${code}: ${message}`);
-  });
 }
 
 export function getToken() {

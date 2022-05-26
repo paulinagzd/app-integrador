@@ -32,6 +32,7 @@ function Upload() {
 
   const [chosenItem, setChosenItem] = useState(items.at(0));
   const [parsedCsvData, setParsedCsvData] = useState([]);
+  const [countSucc, setCountSucc] = useState(0);
 
   const onClick = (e) => {
     //console.log('click', e);
@@ -79,6 +80,7 @@ function Upload() {
         console.log(parsedCsvData[x])
         create(parsedCsvData[x]);
       }
+      setParsedCsvData([]);
     }
   }, [parsedCsvData]);
 
@@ -89,7 +91,9 @@ function Upload() {
         case '1':
           response = await
           createService.createProfesor(data);
+          console.log(response);
           console.log("Profesor Creado Con Exito");
+          setCountSucc(countSucc + 1);
           break;
         case '2':
           response = await
