@@ -16,7 +16,7 @@ export function handleResponse(response) {
       return response.json();
   } else {
     return response.json().then(function(error){
-      throw new Error(`${error.errors[0].message} at ${error.errors[0].path} ${error.errors[0].value}`)
+      throw new Error(`${error.errors[0].message} at ${error.errors[0].value}`)
       //throw new Error(`${error.original.code}: ${JSON.stringify(error.errors[0])}`)
       //throw new Error(error);
     });

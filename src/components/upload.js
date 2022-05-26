@@ -1,5 +1,5 @@
 import './upload.css'
-import { Menu, Dropdown, message, Space } from 'antd';
+import { Menu, Dropdown, message, Space, notification } from 'antd';
 import { DownOutlined, MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
 import {React, useState, useCallback, useEffect} from 'react';
 import {useDropzone} from 'react-dropzone';
@@ -32,17 +32,11 @@ function Upload() {
 
   const [chosenItem, setChosenItem] = useState(items.at(0));
   const [parsedCsvData, setParsedCsvData] = useState([]);
-  const [countSucc, setCountSucc] = useState(0);
+
 
   const onClick = (e) => {
-    //console.log('click', e);
-    //console.log(e.key);
     const clicked = items.find(({ key }) => key === e.key);
-    //console.log(clicked);
-    //console.log(clicked.label);
     setChosenItem(clicked);
-    //console.log(chosenItem);
-    //console.log(label);
   };
 
   const menu = (
@@ -67,17 +61,17 @@ function Upload() {
 
   const onDrop = acceptedFiles => {
     if (acceptedFiles.length) {
-      console.log("Acepted Files: ", acceptedFiles);
-      console.log("File: ", acceptedFiles[0]);
+      //console.log("Acepted Files: ", acceptedFiles);
+      //console.log("File: ", acceptedFiles[0]);
       parseFile(acceptedFiles[0]);
     }
   };
 
   useEffect(() => {
     if (parsedCsvData.length){
-      console.log("Parsed CSV: ", parsedCsvData);
+      //console.log("Parsed CSV: ", parsedCsvData);
       for(var x in parsedCsvData){
-        console.log(parsedCsvData[x])
+        //console.log(parsedCsvData[x])
         create(parsedCsvData[x]);
       }
       setParsedCsvData([]);
@@ -91,9 +85,7 @@ function Upload() {
         case '1':
           response = await
           createService.createProfesor(data);
-          console.log(response);
           console.log("Profesor Creado Con Exito");
-          setCountSucc(countSucc + 1);
           break;
         case '2':
           response = await
@@ -132,8 +124,19 @@ function Upload() {
     } catch (error) {
       console.log(`Error Agregando ${chosenItem.label}`)
       console.log(error);
+      const errMsg = error.message.toString();
+      errorNotification(errMsg);
     }
   }
+
+  const errorNotification = (msg) => {
+    notification['error']({
+      message: 'Error',
+      description: msg,
+      duration: null, 
+
+    });
+  };
 
   const {
     getRootProps,
