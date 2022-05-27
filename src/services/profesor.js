@@ -14,9 +14,9 @@ export const profesorService = {
   getProfesorById,
   getMateriasBloqueadasById,
   getProfesorIdByTipoContrato,
-  // editProfesor,
+  getMateriasImpartidasById,
   editProfesor,
-  // deleteProfesor,
+ 
 };
 
 
@@ -106,3 +106,17 @@ async function getMateriasBloqueadasById(profesorId){
   const data = await handleResponse(res);
   return data;
 }
+
+async function getMateriasImpartidasById(profesorId){
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
+
+  const res = await fetch(`${config.apiUrl}/materia_impartida/profesor/${profesorId}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
+
+
+

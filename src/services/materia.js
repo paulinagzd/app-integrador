@@ -12,7 +12,7 @@ export const materiaService = {
   getAllMaterias,
   getMateriaIdByCodigo,
   getMateriaCodigoById,
-  editMateria,
+  getMateriaCIPById
 };
 
 async function createMateria(data) {
@@ -59,6 +59,7 @@ async function getAllMaterias() {
 
   const res = await fetch(`${config.apiUrl}/materia`, requestOptions);
   const data = await handleResponse(res);
+
   return data;
 }
 
@@ -80,6 +81,17 @@ async function getMateriaCodigoById(materiaId) {
   };
 
   const res = await fetch(`${config.apiUrl}/materia/id/${materiaId}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
+
+async function getMateriaCIPById(profesorId){
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
+
+  const res = await fetch(`${config.apiUrl}/materia/id/${profesorId}`, requestOptions);
   const data = await handleResponse(res);
   return data;
 }
