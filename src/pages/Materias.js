@@ -77,7 +77,6 @@ const Materias = () => {
     try {
       const data = await materiaService.getAllMaterias();
       const loadedMaterias = [];
-
       for (const key in data) {
         data[key].tipo = typeToLabel(data[key].tipo);
         data[key].plan = planToLabel(data[key].plan);
