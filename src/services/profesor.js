@@ -16,7 +16,6 @@ export const profesorService = {
   getProfesorIdByTipoContrato,
   getMateriasImpartidasById,
   editProfesor,
- 
 };
 
 

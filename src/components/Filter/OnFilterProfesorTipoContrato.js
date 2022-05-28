@@ -1,9 +1,8 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
-import { Table, Space, Collapse } from "antd";
+import { Table, Space } from "antd";
 import "antd/dist/antd.less";
 import { profesorService } from "../../services/profesor";
 
-const { Panel } = Collapse;
 
 const OnFilterProfesorTipoContrato = (props) => {
   const [profesorInfo, setProfesorInfo] = useState([]);
@@ -94,7 +93,7 @@ const OnFilterProfesorTipoContrato = (props) => {
         <Table dataSource={profesorInfo} columns={columns} rowKey="id" />
       ) : (
         <h3 style={{ color: "red" }}>
-          Ningun profesor cumple con el criterio escogido
+          Ningún profesor cumple con el criterio escogido
         </h3>
       )}
     </Fragment>
