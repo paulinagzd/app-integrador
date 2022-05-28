@@ -70,7 +70,7 @@ const OnFilterProfesor = (props) => {
       id: "unidades_de_carga_max",
     },
     {
-      title: "Clases en Ingles",
+      title: "Clases en Inglés",
       dataIndex: "clase_en_ingles",
       id: "clase_en_ingles",
     },
@@ -250,7 +250,7 @@ const OnFilterProfesor = (props) => {
         <Table dataSource={profesorInfo} columns={columns} rowKey="id" />
       ) : (
         <h3 style={{ color: "red" }}>
-          Ningun profesor cumple con el criterio escogido
+          Ningún profesor cumple con el criterio escogido
         </h3>
       )}
     </Fragment>

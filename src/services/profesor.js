@@ -8,7 +8,6 @@ import {
 import { config } from "../config";
 
 export const profesorService = {
-  createProfesor,
   getAllProfesores,
   getProfesorIdByMateriaId,
   getProfesorIdByEspecialidadId,
@@ -16,32 +15,35 @@ export const profesorService = {
   getMateriasBloqueadasById,
   getProfesorIdByTipoContrato,
   getMateriasImpartidasById,
-  // editProfesor,
+  editProfesor,
   // deleteProfesor,
 };
 
-async function createProfesor(data) {
+
+async function editProfesor(data, id) {
   const details = data;
 
   const requestOptions = {
-    method: "POST",
+    method: "PUT",
     mode: "cors",
     //credentials: 'include',
     headers: getUrlEncodedAuthHeaders(),
     body: generateEncodedBody(details),
   };
 
-  return fetch(`${config.apiUrl}/profesor`, requestOptions)
+  return fetch(`${config.apiUrl}/profesor/${id}`, requestOptions)
     .then(handleResponse)
     .then((profesorRes) => {
-      console.log(`Created profesor: ${profesorRes}`);
+      console.log(`Edited profesor: ${profesorRes}`);
     });
 }
+
 
 async function getAllProfesores() {
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    //credentials: 'include',
   };
 
   const res = await fetch(`${config.apiUrl}/profesor`, requestOptions);

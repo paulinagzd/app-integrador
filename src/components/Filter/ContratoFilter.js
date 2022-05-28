@@ -1,21 +1,15 @@
 import React, {
   Fragment,
-  useRef,
   useState,
-  useCallback,
   useEffect,
 } from "react";
-import {Table, Space, Switch, AutoComplete } from "antd";
-import { filterService } from "../../services/filter";
+import {Space, Switch, AutoComplete } from "antd";
 import OnFilterProfesorTipoContrato from "./OnFilterProfesorTipoContrato";
 import { CSVLink } from "react-csv";
 
 export default function ContratoFilter() {
   const [chosenContrato, setChosenContrato] = useState("");
   const [visualizador, setVisualizador] = useState(true);
-
-  const searchInput = useRef("");
-
   const contratoInfo = [
     { id: 1, key: 1, tipo: "Planta" },
     { id: 2, key: 2, tipo: "Planta interna" },
@@ -39,26 +33,6 @@ export default function ContratoFilter() {
     Investigador: "investigador",
     "Otro Campus": "otroCampus",
   };
-
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      setChosenContrato(traducirFrontAMySQL[selectedRows[0].tipo]);
-    },
-  };
-
-  const columns = [
-    {
-      title: "Tipo",
-      dataIndex: "tipo",
-      key: "tipo",
-      width: "20%",
-      ...filterService.getColumnSearchProps("tipo", searchInput),
-    },
-  ];
-
-  // useEffect(() => {
-  //   dataFetchContratosHandler();
-  // }, [dataFetchContratosHandler]);
 
   function onChange() {
     setVisualizador(!visualizador);
@@ -99,8 +73,8 @@ export default function ContratoFilter() {
     { label: "Unidades de Carga Máximas", key: "unidades_de_carga_max" },
   ];
 
-  const csvResport = {
-    filename: "reporteProfesoresPorEspecialidad.csv",
+  const csvReport = {
+    filename: "reporteProfesoresPorContrato.csv",
     headers: headers,
     data: profesorInfo,
   };
@@ -113,16 +87,6 @@ export default function ContratoFilter() {
         direction="vertical"
         style={{ marginTop: "50px", justifyContent: "center" }}
       >
-        {/* <Table
-          rowSelection={{
-            type: "radio",
-            ...rowSelection,
-          }}
-          dataSource={contratoInfo}
-          columns={columns}
-          rowKey="id"
-          style={{ width: "100%", justifyContent: "center" }}
-        /> */}
         <span>
           Seleccionar tipo de contrato:
           <AutoComplete
@@ -143,7 +107,7 @@ export default function ContratoFilter() {
           />
         </span>
         <span>
-          Visualizar cambios
+          Visualizar Reporte
           <Switch
             checkedChildren="Si"
             unCheckedChildren="No"
@@ -151,16 +115,18 @@ export default function ContratoFilter() {
             defaultChecked
             style={{ marginLeft: "5px", marginRight: "15px" }}
           />
-          <CSVLink
-            {...csvResport}
-            style={{
-              background: "white",
-              border: "1px solid lightblue",
-              padding: "4px",
-            }}
-          >
-            Generar reporte
-          </CSVLink>
+           {profesorInfo.length > 0 ? (
+            <CSVLink
+              {...csvReport}
+              style={{
+                background: "white",
+                border: "1px solid lightblue",
+                padding: "4px",
+              }}
+            >
+              Descargar Reporte
+            </CSVLink>
+          ) : null}
         </span>
         <div>
           {visualizador ? (
