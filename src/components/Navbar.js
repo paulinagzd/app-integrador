@@ -10,7 +10,7 @@ export default function Navbar() {
     profesor: "Profesores",
     materia: "Materias",
     reporte: "Reportes",
-    admin: "Admin",
+    upload: "Upload",
   };
 
   useEffect(() => {
@@ -74,10 +74,10 @@ export default function Navbar() {
             </Title>
           </Link>
         </Menu.Item>
-        <Menu.Item key="admin" onClick={() => setTitle("Admin")}>
-          <Link to="/admin">
+        <Menu.Item key="upload" onClick={() => setTitle("Upload")}>
+          <Link to="/upload">
             <Title strong level={5} style={{ color: "orange" }}>
-              Admin
+              Upload
             </Title>
           </Link>
         </Menu.Item>
