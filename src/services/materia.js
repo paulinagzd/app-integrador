@@ -11,8 +11,11 @@ export const materiaService = {
   createMateria,
   getAllMaterias,
   getMateriaIdByCodigo,
+  getMaestriasAceptadas,
   getMateriaCodigoById,
-  getMateriaCIPById
+  getMateriaCIPById,
+  getMateriasImpartidasByProfesor,
+  editMateria,
 };
 
 async function createMateria(data) {
@@ -38,7 +41,7 @@ async function editMateria(data, id) {
 
   const requestOptions = {
     method: "PUT",
-    mode: "cors",
+    // mode: "cors",
     //credentials: 'include',
     headers: getUrlEncodedAuthHeaders(),
     body: generateEncodedBody(details),
@@ -46,9 +49,8 @@ async function editMateria(data, id) {
 
   return fetch(`${config.apiUrl}/materia/${id}`, requestOptions)
     .then(handleResponse)
-    .then((materiaRes) => {
-      console.log(`Edited materia: ${materiaRes}`);
-    });
+    .then(materiaRes => console.log(`Edited materia: ${materiaRes}`)
+    );
 }
 
 async function getAllMaterias() {
@@ -96,6 +98,24 @@ async function getMateriaCIPById(profesorId){
   return data;
 }
 
+async function getMaestriasAceptadas(materiaId) {
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
 
+  const res = await fetch(`${config.apiUrl}/maestria_aceptada/${materiaId}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
 
+async function getMateriasImpartidasByProfesor(profesorId) {
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
 
+  const res = await fetch(`${config.apiUrl}/materia_impartida/profesor/${profesorId}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}

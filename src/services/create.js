@@ -17,10 +17,8 @@ import {
     createMateriasImpartidas,
     createECOA,
     createMaterisaBloqueadas,
-    
   };
 
-  
   async function createProfesor(data) {
     const details = data;
   

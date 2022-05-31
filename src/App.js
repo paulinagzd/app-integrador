@@ -1,23 +1,28 @@
-import "./App.css";
+/* eslint-disable no-lone-blocks */
+import React from 'react';
+import { Layout } from 'antd';
+import {
+  Route, Routes, Navigate, BrowserRouter,
+} from 'react-router-dom';
+import './App.css';
 import Upload from './components/upload';
-import Profesores from "./pages/Profesores";
-import Materias from "./pages/Materias";
-import Inicio from "./pages/Inicio";
-import Reportes from "./pages/Reportes";
-import Navbar from "./components/Navbar";
-import "antd/dist/antd.css";
-import { Layout } from "antd";
-import { useEffect } from "react";
-import { Route, Routes, Navigate, BrowserRouter } from "react-router-dom";
+import Profesores from './pages/Profesores';
+import Materias from './pages/Materias';
+import Inicio from './pages/Inicio';
+import Reportes from './pages/Reportes';
+import Navbar from './components/Navbar';
+import 'antd/dist/antd.css';
+// import { PageProvider } from "./providers";
 const { Content } = Layout;
 
 function App() {
   return (
     <div className="App">
+      {/* <PageProvider> */}
       <Layout>
         <BrowserRouter>
           <Navbar />
-          <Content style={{ padding: "0 50px" }}>
+          <Content style={{ padding: '0 50px' }}>
             <div className="site-layout-content">
               <Routes>
                 <Route path="/" element={<Navigate to="/inicio" replace />} />
@@ -37,6 +42,7 @@ function App() {
           </Content>
         </BrowserRouter>
       </Layout>
+      {/* </PageProvider> */}
     </div>
   );
 }
@@ -63,7 +69,7 @@ export default App;
             <Button>Materias</Button>
             <Button>Reportes</Button>
             <Button>Admin</Button>
-            
+
           </Menu>
           </Header> */
 }

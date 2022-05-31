@@ -12,11 +12,11 @@ export const profesorService = {
   getProfesorIdByMateriaId,
   getProfesorIdByEspecialidadId,
   getProfesorById,
+  getProfesorByNomina,
   getMateriasBloqueadasById,
   getProfesorIdByTipoContrato,
   getMateriasImpartidasById,
   editProfesor,
- 
 };
 
 
@@ -33,10 +33,8 @@ async function editProfesor(data, id) {
 
   return fetch(`${config.apiUrl}/profesor/${id}`, requestOptions)
     .then(handleResponse)
-    .then((profesorRes) => {
-      console.log(`Edited profesor: ${profesorRes}`);
-    });
-}
+    .then(profesorRes => console.log(`Edited profesor: ${profesorRes}`)
+  )};
 
 
 async function getAllProfesores() {
@@ -80,6 +78,17 @@ async function getProfesorIdByTipoContrato(tipoContrato){
   };
 
   const res = await fetch(`${config.apiUrl}/profesor/porContrato/${tipoContrato}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
+
+async function getProfesorByNomina(nomina){
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+  };
+
+  const res = await fetch(`${config.apiUrl}/profesor/${nomina}`, requestOptions);
   const data = await handleResponse(res);
   return data;
 }
