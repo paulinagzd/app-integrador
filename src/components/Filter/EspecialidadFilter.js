@@ -1,13 +1,11 @@
 import React, {
   Fragment,
-  useRef,
   useState,
   useCallback,
   useEffect,
 } from "react";
-import {  Table, Space, Switch, AutoComplete } from "antd";
+import { Space, Switch, AutoComplete } from "antd";
 import { especialidadService } from "../../services/especialidad";
-import { filterService } from "../../services/filter";
 import OnFilterProfesor from "./OnFilterProfesor";
 import { CSVLink } from "react-csv";
 
@@ -15,8 +13,6 @@ export default function EspecialidadFilter() {
   const [especialidadInfo, setEspecialidadInfo] = useState([]);
   const [chosenEspecialidad, setChosenEspecialidad] = useState("");
   const [visualizador, setVisualizador] = useState(true);
-
-  const searchInput = useRef("");
 
   const dataFetchEspecialidadesHandler = useCallback(async () => {
     try {
@@ -31,22 +27,6 @@ export default function EspecialidadFilter() {
       console.log(error);
     }
   }, []);
-
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      setChosenEspecialidad(selectedRows[0].id);
-    },
-  };
-
-  const columns = [
-    {
-      title: "Nombre",
-      dataIndex: "nombre",
-      key: "nombre",
-      width: "30%",
-      ...filterService.getColumnSearchProps("nombre", searchInput),
-    },
-  ];
 
   useEffect(() => {
     dataFetchEspecialidadesHandler();
@@ -100,13 +80,15 @@ export default function EspecialidadFilter() {
     { label: "Nómina", key: "nomina" },
     { label: "Nombre", key: "nombre" },
     { label: "Correo", key: "correo_institucional" },
+    { label: "CIPs", key: "cip" },
     { label: "Materias Bloqueadas", key: "materia_bloqueada" },
     { label: "Tipo de Contrato", key: "tipo" },
     { label: "Unidades de Carga Máximas", key: "unidades_de_carga_max" },
-    { label: "Clases en Ingles", key: "clase_en_ingles" },
+    { label: "Clases en Inglés", key: "clase_en_ingles" },
+    { label: "Histórico de ECOAS", key: "ecoa" },
   ];
 
-  const csvResport = {
+  const csvReport = {
     filename: "reporteProfesoresPorEspecialidad.csv",
     headers: headers,
     data: downloadFormat,
@@ -139,18 +121,8 @@ export default function EspecialidadFilter() {
             allowClear
           />
         </span>
-        {/* <Table
-          rowSelection={{
-            type: "radio",
-            ...rowSelection,
-          }}
-          dataSource={especialidadInfo}
-          columns={columns}
-          rowKey="id"
-          style={{ width: "100%", justifyContent: "center" }}
-        /> */}
         <span>
-          Visualizar cambios
+          Visualizar Reporte
           <Switch
             checkedChildren="Si"
             unCheckedChildren="No"
@@ -158,19 +130,21 @@ export default function EspecialidadFilter() {
             defaultChecked
             style={{ marginLeft: "5px", marginRight: "15px" }}
           />
-          <CSVLink
-            {...csvResport}
-            onClick={() => {
-              downloadCSVhandler();
-            }}
-            style={{
-              background: "white",
-              border: "1px solid lightblue",
-              padding: "4px",
-            }}
-          >
-            Generar reporte
-          </CSVLink>
+          {profesorInfo.length > 0 ? (
+            <CSVLink
+              {...csvReport}
+              onClick={() => {
+                downloadCSVhandler();
+              }}
+              style={{
+                background: "white",
+                border: "1px solid lightblue",
+                padding: "4px",
+              }}
+            >
+              Descargar Reporte
+            </CSVLink>
+          ) : null}
         </span>
         <div>
           {visualizador ? (

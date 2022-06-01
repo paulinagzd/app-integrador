@@ -79,9 +79,9 @@ function OnFilterProfesor(props) {
       id: 'unidades_de_carga_max',
     },
     {
-      title: 'Clases en Ingles',
-      dataIndex: 'clase_en_ingles',
-      id: 'clase_en_ingles',
+      title: "Clases en Inglés",
+      dataIndex: "clase_en_ingles",
+      id: "clase_en_ingles",
     },
     {
       title: 'Histórico de ECOAS',
@@ -252,8 +252,8 @@ function OnFilterProfesor(props) {
       {profesorInfo.length > 0 ? (
         <Table dataSource={profesorInfo} columns={columns} rowKey="id" />
       ) : (
-        <h3 style={{ color: 'red' }}>
-          Ningun profesor cumple con el criterio escogido
+        <h3 style={{ color: "red" }}>
+          Ningún profesor cumple con el criterio escogido
         </h3>
       )}
     </>

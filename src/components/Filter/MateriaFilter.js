@@ -1,26 +1,18 @@
 import React, {
   Fragment,
-  useRef,
   useState,
   useCallback,
   useEffect,
 } from "react";
-import {
-  Space,
-  Switch,
-  AutoComplete,
-} from "antd";
+import { Space, Switch, AutoComplete } from "antd";
 import { materiaService } from "../../services/materia";
-import { filterService } from "../../services/filter";
 import OnFilterProfesor from "./OnFilterProfesor";
-import { CSVLink} from "react-csv";
+import { CSVLink } from "react-csv";
 
 export default function MateriaFilter(props) {
   const [materiaInfo, setMateriaInfo] = useState([]);
   const [chosenMateria, setChosenMateria] = useState("");
   const [visualizador, setVisualizador] = useState(true);
-
-  const searchInput = useRef("");
 
   const dataFetchMateriasHandler = useCallback(async () => {
     try {
@@ -36,31 +28,6 @@ export default function MateriaFilter(props) {
     }
   }, []);
 
-  //Para la tabla /////////////////////////////////////////////////////////////
-
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      setChosenMateria(selectedRows[0].id);
-    },
-  };
-
-  const columns = [
-    {
-      title: "Código",
-      dataIndex: "codigo",
-      key: "codigo",
-      width: "30%",
-      ...filterService.getColumnSearchProps("codigo", searchInput),
-    },
-    {
-      title: "Nombre",
-      dataIndex: "nombre",
-      key: "nombre",
-      width: "20%",
-      ...filterService.getColumnSearchProps("nombre", searchInput),
-    },
-  ];
-
   //////////////////////////////////////////////////////////////
 
   useEffect(() => {
@@ -70,8 +37,6 @@ export default function MateriaFilter(props) {
   function onChange() {
     setVisualizador(!visualizador);
   }
-
-
 
   // Search input///////////////////////////////////////////////////////////////
   const displayMateriaOptions = () => {
@@ -95,14 +60,10 @@ export default function MateriaFilter(props) {
     setChosenMateria(materiaCodigoIdMap[nomina]);
   };
 
-  // const handleMateriaOptions = () => {
-  //  props.handleMateriaOptions(materiaInfo);
-  //  }
   useEffect(() => {
     displayMateriaOptions();
-    // handleMateriaOptions();
   }, [materiaInfo]);
-  
+
   //Formateo y descarga a CSV de los datos filtrados
   const [downloadFormat, setDownloadFormat] = useState([]);
   const [profesorInfo, setProfesorInfo] = useState([]);
@@ -120,19 +81,19 @@ export default function MateriaFilter(props) {
     { label: "Nómina", key: "nomina" },
     { label: "Nombre", key: "nombre" },
     { label: "Correo", key: "correo_institucional" },
+    { label: "CIPs", key: "cip" },
     { label: "Materias Bloqueadas", key: "materia_bloqueada" },
     { label: "Tipo de Contrato", key: "tipo" },
     { label: "Unidades de Carga Máximas", key: "unidades_de_carga_max" },
-    { label: "Clases en Ingles", key: "clase_en_ingles" },
+    { label: "Clases en Inglés", key: "clase_en_ingles" },
+    { label: "Histórico de ECOAS", key: "ecoa" },
   ];
 
-  const csvResport = {
+  const csvReport = {
     filename: "reporteProfesoresPorMateria.csv",
     headers: headers,
     data: downloadFormat,
   };
-
-  
 
   return (
     <Fragment>
@@ -159,18 +120,8 @@ export default function MateriaFilter(props) {
             allowClear
           />
         </span>
-        {/* <Table
-          rowSelection={{
-            type: "radio",
-            ...rowSelection,
-          }}
-          dataSource={materiaInfo}
-          columns={columns}
-          rowKey="id"
-          style={{ width: "100%", justifyContent: "center" }}
-        /> */}
         <span>
-          Visualizar cambios
+          Visualizar Reporte
           <Switch
             checkedChildren="Si"
             unCheckedChildren="No"
@@ -178,26 +129,30 @@ export default function MateriaFilter(props) {
             defaultChecked
             style={{ marginLeft: "5px", marginRight: "15px" }}
           />
-          <CSVLink
-            {...csvResport}
-            onClick={() => {
-              downloadCSVhandler();
-            }}
-            style={{
-              background: "white",
-              border: "1px solid lightblue",
-              padding: "4px",
-            }}
-          >
-            Generar reporte
-          </CSVLink>
+          {profesorInfo.length > 0 ? (
+            <CSVLink
+              {...csvReport}
+              onClick={() => {
+                downloadCSVhandler();
+              }}
+              style={{
+                background: "white",
+                border: "1px solid lightblue",
+                padding: "4px",
+              }}
+            >
+              Descargar Reporte
+            </CSVLink>
+          ) : null}
         </span>
         <div>
           {visualizador ? (
             <OnFilterProfesor
               chosenMateria={chosenMateria}
               profesorInfo={profesorInfo}
-              onChange={(value) => setProfesorInfo(value)}
+              onChange={(value) => {
+                setProfesorInfo(value);
+              }}
             />
           ) : null}
         </div>
