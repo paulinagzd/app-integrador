@@ -1,37 +1,48 @@
 import "./App.css";
-import Upload from './components/upload';
+import Upload from "./components/upload";
+import Login from "./pages/Login";
+import Admin from "./pages/Admin";
 import Profesores from "./pages/Profesores";
 import Materias from "./pages/Materias";
-import Inicio from "./pages/Inicio";
+// import Inicio from "./pages/Inicio";
 import Reportes from "./pages/Reportes";
 import Navbar from "./components/Navbar";
 import "antd/dist/antd.css";
 import { Layout } from "antd";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Route, Routes, Navigate, BrowserRouter } from "react-router-dom";
 const { Content } = Layout;
 
 function App() {
+  const [loadNavBar, setLoadNavBar] = useState(false);
+  useEffect(() => {
+    if (
+      window.location.pathname !== "/" &&
+      window.location.pathname !== "/login"
+    ) {
+      setLoadNavBar(true);
+    }
+  }, []);
   return (
     <div className="App">
       <Layout>
         <BrowserRouter>
-          <Navbar />
+          {loadNavBar ? <Navbar /> : null}
           <Content style={{ padding: "0 50px" }}>
             <div className="site-layout-content">
               <Routes>
-                <Route path="/" element={<Navigate to="/inicio" replace />} />
-                <Route path="/inicio" element={<Inicio />} />
+                <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route
+                  path="/login"
+                  element={<Login setLoadNavBar={setLoadNavBar} />}
+                />
+                {/* <Route path="/inicio" element={<Inicio />} /> */}
                 <Route path="/profesor" element={<Profesores />} end />
                 <Route path="/materia" element={<Materias />} />
                 <Route path="/reporte" element={<Reportes />} />
-                {/* <Route path="/admin" element={<Admin/>} />  */}
+                <Route path="/admin" element={<Admin />} />
                 <Route path="/upload" element={<Upload />} />
-                {/* <Route path="/reportes" element={<Reportes/>} />
-                <Route path="/admin" element={<Admin/>} /> */}
               </Routes>
-
-              {/* <Profesores /> */}
               {/* <FileDrop></FileDrop> */}
             </div>
           </Content>
