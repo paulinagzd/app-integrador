@@ -11,14 +11,14 @@ import Materias from './pages/Materias';
 import Inicio from './pages/Inicio';
 import Reportes from './pages/Reportes';
 import Navbar from './components/Navbar';
-import 'antd/dist/antd.css';
-// import { PageProvider } from "./providers";
+import 'antd/dist/antd.min.css';
+import { PageProvider } from './pages/providers';
+
 const { Content } = Layout;
 
-function App() {
-  return (
-    <div className="App">
-      {/* <PageProvider> */}
+const App = () => (
+  <div className="App">
+    <PageProvider>
       <Layout>
         <BrowserRouter>
           <Navbar />
@@ -42,10 +42,9 @@ function App() {
           </Content>
         </BrowserRouter>
       </Layout>
-      {/* </PageProvider> */}
-    </div>
-  );
-}
+    </PageProvider>
+  </div>
+);
 
 export default App;
 

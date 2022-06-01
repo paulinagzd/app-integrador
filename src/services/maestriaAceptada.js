@@ -1,18 +1,9 @@
-
 import {
   generateEncodedBody,
-  getGetParams,
-  getTokenHeader,
   getUrlEncodedAuthHeaders,
   handleResponse,
-} from "../helpers/utility";
-import { config } from "../config";
-
-export const maestriaAceptadaService = {
-  createMaestriaAceptada,
-  getAllMaestriasAceptadas,
-  getMaestriasByMateria,
-};
+} from '../helpers/utility';
+import { config } from '../config';
 
 async function createMaestriaAceptada(data) {
   const details = data;
@@ -20,22 +11,23 @@ async function createMaestriaAceptada(data) {
   const requestOptions = {
     method: 'POST',
     mode: 'no-cors',
-    //credentials: 'include',
+    // credentials: 'include',
     headers: getUrlEncodedAuthHeaders(),
     body: generateEncodedBody(details),
   };
-  
+
   return fetch(`${config.apiUrl}/maestria_aceptada`, requestOptions)
     .then(handleResponse)
-    .then(maestriaAceptadaRes => {
+    .then((maestriaAceptadaRes) => {
+      // eslint-disable-next-line no-console
       console.log(`Created maestria aceptaada: ${maestriaAceptadaRes}`);
     });
 }
 
 async function getAllMaestriasAceptadas() {
   const requestOptions = {
-    method: "GET",
-    mode: "cors",
+    method: 'GET',
+    mode: 'cors',
   };
 
   const res = await fetch(`${config.apiUrl}/maestria_aceptada`, requestOptions);
@@ -45,11 +37,17 @@ async function getAllMaestriasAceptadas() {
 
 async function getMaestriasByMateria(id) {
   const requestOptions = {
-    method: "GET",
-    mode: "cors",
+    method: 'GET',
+    mode: 'cors',
   };
 
   const res = await fetch(`${config.apiUrl}/maestria_aceptada/${id}`, requestOptions);
   const data = await handleResponse(res);
   return data;
 }
+
+export const maestriaAceptadaService = {
+  createMaestriaAceptada,
+  getAllMaestriasAceptadas,
+  getMaestriasByMateria,
+};

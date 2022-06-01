@@ -135,8 +135,7 @@ export default function ContratoFilter() {
           dropdownMatchSelectWidth={200}
           options={contratoList}
           filterOption={
-            (inputValue, option) =>
-            option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+            (inputValue, option) => option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
           }
           allowClear
         />

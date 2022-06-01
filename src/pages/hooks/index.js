@@ -1,2 +1,2 @@
 export * from './useMateriasController';
-export * from './useProfesoresController'
+export * from './useProfesoresController';

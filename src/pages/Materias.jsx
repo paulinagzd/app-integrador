@@ -2,16 +2,23 @@ import React, { Fragment, useRef } from 'react';
 import { Table, Space, Empty } from 'antd';
 import 'antd/dist/antd.less';
 import ModalPage from '../components/ModalPage/ModalPage';
-import { PageProvider } from './providers';
+import SubjectModalForm from '../components/SubjectModalForm/SubjectModalForm';
+import { usePageProvider } from './providers';
 import { filterService } from '../services/filter';
 import { useMateriasController } from './hooks';
 
 export const ModalButtonContext = React.createContext();
 
-function Materias() {
+const Materias = () => {
   const searchInput = useRef('');
 
   const { materiaInfo, rowSelection } = useMateriasController();
+  const { onCreateM } = useMateriasController();
+
+  const {
+    visibleMateriaModal,
+    onCancelModal,
+  } = usePageProvider();
 
   const columns = [
     {
@@ -55,7 +62,7 @@ function Materias() {
   ];
 
   return (
-    <PageProvider>
+    <>
       <>
         <Space
           direction="horizontal"
@@ -87,8 +94,16 @@ function Materias() {
           )
         }
       </>
-    </PageProvider>
+      <SubjectModalForm
+        visible={visibleMateriaModal}
+        onCreate={onCreateM}
+        // action={action}
+        // index={index}
+        // disabled={action === 'detail'}
+        onCancel={() => onCancelModal('materia')}
+      />
+    </>
   );
-}
+};
 
 export default Materias;

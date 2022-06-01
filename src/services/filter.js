@@ -1,6 +1,14 @@
-import React from "react";
-import { SearchOutlined } from "@ant-design/icons";
-import { Button, Input, Space } from "antd";
+import React from 'react';
+import { SearchOutlined } from '@ant-design/icons';
+import { Button, Input, Space } from 'antd';
+
+// eslint-disable-next-line no-unused-vars
+const handleSearch = (selectedKeys, confirm, dataIndex) => confirm();
+
+const handleReset = (clearFilters, confirm) => {
+  clearFilters();
+  confirm();
+};
 
 const getColumnSearchProps = (dataIndex, searchInput) => ({
   filterDropdown: ({
@@ -14,11 +22,9 @@ const getColumnSearchProps = (dataIndex, searchInput) => ({
         ref={searchInput}
         placeholder={`Search ${dataIndex}`}
         value={selectedKeys[0]}
-        onChange={(e) =>
-          setSelectedKeys(e.target.value ? [e.target.value] : [])
-        }
+        onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
         onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
-        style={{ marginBottom: 8, display: "block" }}
+        style={{ marginBottom: 8, display: 'block' }}
       />
       <Space>
         <Button
@@ -48,25 +54,17 @@ const getColumnSearchProps = (dataIndex, searchInput) => ({
     </div>
   ),
   filterIcon: (filtered) => (
-    <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+    <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />
   ),
-  onFilter: (value, record) =>
-    record[dataIndex]
-      ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-      : "",
+  onFilter: (value, record) => (record[dataIndex]
+    ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
+    : ''),
   onFilterDropdownVisibleChange: (visible) => {
     if (visible) {
       setTimeout(() => searchInput, 100);
     }
   },
 });
-
-const handleSearch = (selectedKeys, confirm, dataIndex) => confirm();
-
-const handleReset = (clearFilters, confirm) => {
-  clearFilters();
-  confirm();
-};
 
 export const filterService = {
   getColumnSearchProps,

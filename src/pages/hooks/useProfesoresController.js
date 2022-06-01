@@ -1,4 +1,8 @@
-/* eslint-disable import/prefer-default-export */
+/* eslint-disable guard-for-in */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-use-before-define */
+/* eslint-disable no-restricted-syntax */
+/* eslint-disable no-console */
 import {
   useState, useEffect, useCallback, useRef,
 } from 'react';
@@ -90,8 +94,7 @@ export const useProfesoresController = () => {
   }, [dataFetchProfesoresHandler]);
 
   const colorSelection = (color) => {
-    color = color.toLowerCase();
-    switch (color) {
+    switch (color.toLowerCase()) {
       case 'activo':
         return 'green';
       case 'stand-by':

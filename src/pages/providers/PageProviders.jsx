@@ -8,9 +8,9 @@ export const PageProvider = ({ children }) => {
 
   return (
     <pageContext.Provider
-    value={value}
+      value={value}
     >
       {children}
     </pageContext.Provider>
   );
-}
+};

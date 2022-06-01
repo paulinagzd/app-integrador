@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-console */
 import { useState, useEffect, useCallback } from 'react';
 import { materiaService } from '../../../services/materia';
@@ -12,18 +10,20 @@ export const useController = () => {
   const [visibleProfesorModal, setVisibleProfesorModal] = useState(false);
   const [selected, setSelected] = useState({});
   const [action, setAction] = useState();
+  const [index, setIndex] = useState();
 
   const {
     getMateriaIdByCodigo,
     getMaestriasAceptadas,
-    getMateriasImpartidasByProfesor,
+    getMateriasByProfesor,
   } = materiaService;
   const { getProfesorById } = profesorService;
   const { getEspecialidadByProfesor } = especialidadService;
   const { getGradosByProfesor } = gradoService;
 
-  // useEffect(() => {console.log('selected', selected)})
+  useEffect(() => { console.log('selected', selected); });
 
+  // eslint-disable-next-line no-unused-vars
   const onEditMateria = (payload) => {
     setSelected(payload);
   };
@@ -49,7 +49,7 @@ export const useController = () => {
     return res;
   };
 
-  const parseMateriasImpartidas = (materias) => {
+  const parseMaterias = (materias) => {
     const res = materias.map((t) => {
       const nombre = `${t.materium.nombre} (${t.materium.codigo})`;
       return {
@@ -86,20 +86,25 @@ export const useController = () => {
     const grados = await getGradosByProfesor(payload.id);
     const parsedGrados = parseDefaultObject(grados);
 
-    const materiasI = await getMateriasImpartidasByProfesor(payload.id);
-    const parsedMateriasI = parseMateriasImpartidas(materiasI);
+    const materiasI = await getMateriasByProfesor(payload.id, 'materia_impartida');
+    const parsedMateriasI = parseMaterias(materiasI);
+
+    const materiasB = await getMateriasByProfesor(payload.id, 'materia_bloqueada');
+    const parsedMateriasB = parseMaterias(materiasB);
 
     setSelected({
       ...res[0],
       especialidades: parsedTemas,
       grados: parsedGrados,
       materiasImpartidas: parsedMateriasI,
+      materiasBloqueadas: parsedMateriasB,
     });
     setVisibleProfesorModal(true);
   });
 
-  const onSetVisible = (type, payload, a) => {
+  const onSetVisible = (type, payload, a, i) => {
     setAction(a);
+    setIndex(i);
     if (payload) {
       if (type === 'materia') {
         goToMateria(payload);
@@ -123,12 +128,21 @@ export const useController = () => {
     setSelected(null);
   };
 
+  const onCheck = (checked) => {
+    setSelected({
+      ...selected,
+      clase_en_ingles: checked,
+    });
+  };
+
   return {
     onSetVisible,
+    onCancelModal,
+    onCheck,
     visibleMateriaModal,
     visibleProfesorModal,
-    onCancelModal,
     selected,
     action,
+    index,
   };
 };

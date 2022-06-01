@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React, { useEffect, useState, useRef } from 'react';
 import {
@@ -24,16 +26,17 @@ const { TextArea } = Input;
 //    id_materia
 //    nombre (input)
 
-function SubjectModalForm({
-  visible, onCreate, onCancel, disabled, index,
-}) {
+const SubjectModalForm = ({
+  onCreate, onCancel, disabled,
+}) => {
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [modalText, setModalText] = useState('Content of the modal');
   const [form] = Form.useForm();
 
   const formRef = useRef(null); // set initial ref as null
 
-  const { selected, action, onCancelModal } = usePageProvider();
+  const {
+    selected, action, onCancelModal, index, visibleMateriaModal,
+  } = usePageProvider();
 
   // maestrias aceptadas
   // cips siendo csvs
@@ -52,13 +55,26 @@ function SubjectModalForm({
     form
       .validateFields()
       .then((values) => {
+        // console.log(values);
         form.resetFields();
         onCreate(values, selected, action, index);
       })
       .catch((info) => {
+        /*
+        errorInfo:
+        {
+          values: {
+            username: 'username',
+            password: 'password',
+          },
+          errorFields: [
+            { name: ['password'], errors: ['Please input your Password!'] },
+          ],
+          outOfDate: false,
+        }
+      */
         console.log('Validate Failed:', info);
       });
-    setModalText('The modal will be closed after two seconds');
     setConfirmLoading(true);
     setTimeout(() => {
       // setVisible(false);
@@ -72,7 +88,7 @@ function SubjectModalForm({
         // getContainer={false}
       mask={false}
       title="Materia"
-      visible={visible}
+      visible={visibleMateriaModal}
       onCancel={onCancel}
       onOk={handleOk}
       confirmLoading={confirmLoading}
@@ -193,6 +209,6 @@ function SubjectModalForm({
       </div>
     </Modal>
   );
-}
+};
 
 export default SubjectModalForm;
