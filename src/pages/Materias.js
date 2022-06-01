@@ -7,6 +7,7 @@ import { filterService } from "../services/filter";
 import { subjectTypes } from "../constants/subject";
 import { openSection } from "../helpers/utility";
 
+
 const typeToLabel = (type) => {
   switch(type) {
     case 'bloque':

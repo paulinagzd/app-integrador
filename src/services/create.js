@@ -15,7 +15,6 @@ import {
     createMaterias,
     createMaestriasAceptadas,
     createMateriasImpartidas,
-    createECOA,
     createMaterisaBloqueadas,
     
   };
@@ -117,20 +116,6 @@ import {
     };
   
     return fetch(`${config.apiUrl}/materia_impartida`, requestOptions)
-      .then(handleResponse);
-  }
-
-  async function createECOA(data) {
-    const details = data;
-    
-    const requestOptions = {
-      method: "POST",
-      mode: "cors", 
-      headers: getUrlEncodedAuthHeaders(),
-      body: generateEncodedBody(details),
-    };
-  
-    return fetch(`${config.apiUrl}/ecoa`, requestOptions)
       .then(handleResponse);
   }
 
