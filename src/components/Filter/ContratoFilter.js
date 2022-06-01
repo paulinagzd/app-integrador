@@ -8,40 +8,42 @@ import OnFilterProfesorTipoContrato from "./OnFilterProfesorTipoContrato";
 import { CSVLink } from "react-csv";
 
 export default function ContratoFilter() {
-  const [chosenContrato, setChosenContrato] = useState("");
+  const [chosenContrato, setChosenContrato] = useState('');
   const [visualizador, setVisualizador] = useState(true);
   const contratoInfo = [
-    { id: 1, key: 1, tipo: "Planta" },
-    { id: 2, key: 2, tipo: "Planta interna" },
-    { id: 3, key: 3, tipo: "Lecture" },
-    { id: 4, key: 4, tipo: "Cátedra" },
-    { id: 5, key: 5, tipo: "Pensionado" },
-    { id: 6, key: 6, tipo: "M40" },
-    { id: 7, key: 7, tipo: "Director" },
-    { id: 8, key: 8, tipo: "Investigador" },
-    { id: 9, key: 9, tipo: "Otro Campus" },
+    { id: 1, key: 1, tipo: 'Planta' },
+    { id: 2, key: 2, tipo: 'Planta interna' },
+    { id: 3, key: 3, tipo: 'Lecture' },
+    { id: 4, key: 4, tipo: 'Cátedra' },
+    { id: 5, key: 5, tipo: 'Pensionado' },
+    { id: 6, key: 6, tipo: 'M40' },
+    { id: 7, key: 7, tipo: 'Director' },
+    { id: 8, key: 8, tipo: 'Investigador' },
+    { id: 9, key: 9, tipo: 'Otro Campus' },
   ];
 
   const traducirFrontAMySQL = {
-    Planta: "planta",
-    "Planta interna": "plantaInterna",
-    Lecture: "lecture",
-    Cátedra: "catedra",
-    Pensionado: "pensionado",
-    M40: "m40",
-    Director: "director",
-    Investigador: "investigador",
-    "Otro Campus": "otroCampus",
+    Planta: 'planta',
+    'Planta interna': 'plantaInterna',
+    Lecture: 'lecture',
+    Cátedra: 'catedra',
+    Pensionado: 'pensionado',
+    M40: 'm40',
+    Director: 'director',
+    Investigador: 'investigador',
+    'Otro Campus': 'otroCampus',
   };
 
   function onChange() {
     setVisualizador(!visualizador);
   }
 
+  const [contratoList, setContratoList] = useState('');
+
   // Search input///////////////////////////////////////////////////////////////
   const displayContratoOptions = () => {
-    let contratoValues = [];
-    let contratoTipoIdMap = {};
+    const contratoValues = [];
+    const contratoTipoIdMap = {};
     for (const key in contratoInfo) {
       contratoValues.push({
         key: contratoInfo[key].id,
@@ -52,8 +54,6 @@ export default function ContratoFilter() {
     setContratoList(contratoValues);
   };
 
-  const [contratoList, setContratoList] = useState("");
-
   const onSelect = (tipo) => {
     setChosenContrato(traducirFrontAMySQL[tipo]);
   };
@@ -62,15 +62,15 @@ export default function ContratoFilter() {
     displayContratoOptions();
   }, [chosenContrato]);
 
-  //Formateo y descarga a CSV de los datos filtrados
+  // Formateo y descarga a CSV de los datos filtrados
   const [profesorInfo, setProfesorInfo] = useState([]);
 
   const headers = [
-    { label: "Nómina", key: "nomina" },
-    { label: "Nombre", key: "nombre" },
-    { label: "Correo", key: "correo_institucional" },
-    { label: "Tipo de Contrato", key: "tipo" },
-    { label: "Unidades de Carga Máximas", key: "unidades_de_carga_max" },
+    { label: 'Nómina', key: 'nomina' },
+    { label: 'Nombre', key: 'nombre' },
+    { label: 'Correo', key: 'correo_institucional' },
+    { label: 'Tipo de Contrato', key: 'tipo' },
+    { label: 'Unidades de Carga Máximas', key: 'unidades_de_carga_max' },
   ];
 
   const csvReport = {
@@ -79,7 +79,7 @@ export default function ContratoFilter() {
     data: profesorInfo,
   };
 
-  //////////////////////////////////////
+  /// ///////////////////////////////////
 
   return (
     <Fragment>

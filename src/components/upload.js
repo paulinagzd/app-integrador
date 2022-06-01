@@ -120,7 +120,7 @@ function Upload() {
           break;
         case '7':
           response = await
-          createService.createMaterisaBloqueadas(data);
+          createService.createMateriasBloqueadas(data);
           console.log("Materia Bloqueada Creada Con Exito");
           break;
       }

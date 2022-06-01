@@ -6,7 +6,7 @@ const professorStatus = [{
   value: 'inactivo',
 }, {
   label: 'En contratación',
-  value: 'enContratacion', 
+  value: 'enContratacion',
 }, {
   label: 'Stand-by',
   value: 'stand-by',
@@ -23,7 +23,7 @@ const professorTypes = [{
   value: 'plantaInterna',
 }, {
   label: 'Lecture',
-  value: 'lecture', 
+  value: 'lecture',
 }, {
   label: 'Cátedra',
   value: 'catedra',
@@ -32,19 +32,19 @@ const professorTypes = [{
   value: 'pensionado',
 }, {
   label: 'M40',
-  value: 'm40', 
+  value: 'm40',
 }, {
   label: 'Director',
-  value: 'director', 
+  value: 'director',
 }, {
   label: 'Investigador',
-  value: 'investigador', 
+  value: 'investigador',
 }, {
   label: 'Otro campus',
-  value: 'otroCampus', 
+  value: 'otroCampus',
 }];
 
 export {
   professorStatus,
-  professorTypes
+  professorTypes,
 };

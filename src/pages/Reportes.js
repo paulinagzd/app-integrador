@@ -1,30 +1,34 @@
-import { useState,useEffect } from "react";
-import { Select, Typography, AutoComplete, Button } from "antd";
-import "antd/dist/antd.less";
-import MateriaFilter from "../components/Filter/MateriaFilter";
-import EspecialidadFilter from "../components/Filter/EspecialidadFilter";
-import ContratoFilter from "../components/Filter/ContratoFilter";
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from 'react';
+import {
+  Select, Typography, AutoComplete, Button,
+} from 'antd';
+import 'antd/dist/antd.less';
+import MateriaFilter from '../components/Filter/MateriaFilter';
+import EspecialidadFilter from '../components/Filter/EspecialidadFilter';
+import ContratoFilter from '../components/Filter/ContratoFilter';
+
 const { Title } = Typography;
 const { Option } = Select;
 
-export default function Reportes() {
+const Reportes = () => {
   const [filter, setFilter] = useState();
 
-  //Materia filtro
-//   const [materiaList, setMateriaList] = useState([]);
-//   const [materiaCodigoIdMap, setMateriaCodigoIdMap] = useState("");
-// const [chosenMateria,setChosenMateria] = useState([]);
-  //Especialidad filtro 
+  // Materia filtro
+  //   const [materiaList, setMateriaList] = useState([]);
+  //   const [materiaCodigoIdMap, setMateriaCodigoIdMap] = useState("");
+  // const [chosenMateria,setChosenMateria] = useState([]);
+  // Especialidad filtro
 
   function handleChange(value) {
     switch (value) {
-      case "materia":
+      case 'materia':
         setFilter(<MateriaFilter />);
         break;
-      case "especialidad":
+      case 'especialidad':
         setFilter(<EspecialidadFilter />);
         break;
-      case "contrato":
+      case 'contrato':
         setFilter(<ContratoFilter />);
         break;
       default:
@@ -44,20 +48,19 @@ export default function Reportes() {
   //     materiaValues.push({ key: childData[key].id, value: childData[key].codigo });
   //     materiaCodigoIdMap[childData[key].codigo] = childData[key].id;
   //   }
-    
+
   //   setMateriaList(materiaValues);
   //   setMateriaCodigoIdMap(materiaCodigoIdMap);
   // }
- 
-  
 
   return (
     <>
-      <span style={{ marginRight: "5px" }}>
-        <Title strong level={5} style={{ color: "blue" }}>
+      <span style={{ marginRight: '5px' }}>
+        <Title strong level={5} style={{ color: 'blue' }}>
           Filtra profesor por
           <Select
-            style={{ marginLeft: 15, width: "300px" }}
+            style={{ marginLeft: 15, width: '300px' }}
+            // eslint-disable-next-line react/jsx-no-bind
             onChange={handleChange}
             placeholder="Seleccionar opción:"
             allowClear
@@ -86,4 +89,6 @@ export default function Reportes() {
       {filter}
     </>
   );
-}
+};
+
+export default Reportes;

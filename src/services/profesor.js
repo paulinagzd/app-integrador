@@ -1,48 +1,32 @@
+/* eslint-disable no-console */
 import {
   generateEncodedBody,
-  getGetParams,
-  getTokenHeader,
   getUrlEncodedAuthHeaders,
   handleResponse,
-} from "../helpers/utility";
-import { config } from "../config";
-
-export const profesorService = {
-  getAllProfesores,
-  getProfesorIdByMateriaId,
-  getProfesorIdByEspecialidadId,
-  getProfesorById,
-  getMateriasBloqueadasById,
-  getProfesorIdByTipoContrato,
-  getMateriasImpartidasById,
-  editProfesor,
-};
-
+} from '../helpers/utility';
+import { config } from '../config';
 
 async function editProfesor(data, id) {
   const details = data;
 
   const requestOptions = {
-    method: "PUT",
-    mode: "cors",
-    //credentials: 'include',
+    method: 'PUT',
+    mode: 'cors',
+    // credentials: 'include',
     headers: getUrlEncodedAuthHeaders(),
     body: generateEncodedBody(details),
   };
 
   return fetch(`${config.apiUrl}/profesor/${id}`, requestOptions)
     .then(handleResponse)
-    .then((profesorRes) => {
-      console.log(`Edited profesor: ${profesorRes}`);
-    });
+    .then((profesorRes) => console.log(`Edited profesor: ${profesorRes}`));
 }
-
 
 async function getAllProfesores() {
   const requestOptions = {
-    method: "GET",
-    mode: "cors",
-    //credentials: 'include',
+    method: 'GET',
+    mode: 'cors',
+    // credentials: 'include',
   };
 
   const res = await fetch(`${config.apiUrl}/profesor`, requestOptions);
@@ -50,10 +34,10 @@ async function getAllProfesores() {
   return data;
 }
 
-async function getProfesorIdByMateriaId(materiaId){
+async function getProfesorIdByMateriaId(materiaId) {
   const requestOptions = {
-    method: "GET",
-    mode: "cors",
+    method: 'GET',
+    mode: 'cors',
   };
 
   const res = await fetch(`${config.apiUrl}/materia_impartida/materia/${materiaId}`, requestOptions);
@@ -61,10 +45,10 @@ async function getProfesorIdByMateriaId(materiaId){
   return data;
 }
 
-async function getProfesorIdByEspecialidadId(especialidadId){
+async function getProfesorIdByEspecialidadId(especialidadId) {
   const requestOptions = {
-    method: "GET",
-    mode: "cors",
+    method: 'GET',
+    mode: 'cors',
   };
 
   const res = await fetch(`${config.apiUrl}/tema_especialidad_profesor/${especialidadId}`, requestOptions);
@@ -72,10 +56,10 @@ async function getProfesorIdByEspecialidadId(especialidadId){
   return data;
 }
 
-async function getProfesorIdByTipoContrato(tipoContrato){
+async function getProfesorIdByTipoContrato(tipoContrato) {
   const requestOptions = {
-    method: "GET",
-    mode: "cors",
+    method: 'GET',
+    mode: 'cors',
   };
 
   const res = await fetch(`${config.apiUrl}/profesor/porContrato/${tipoContrato}`, requestOptions);
@@ -83,10 +67,21 @@ async function getProfesorIdByTipoContrato(tipoContrato){
   return data;
 }
 
-async function getProfesorById(profesorId){
+async function getProfesorByNomina(nomina) {
   const requestOptions = {
-    method: "GET",
-    mode: "cors",
+    method: 'GET',
+    mode: 'cors',
+  };
+
+  const res = await fetch(`${config.apiUrl}/profesor/${nomina}`, requestOptions);
+  const data = await handleResponse(res);
+  return data;
+}
+
+async function getProfesorById(profesorId) {
+  const requestOptions = {
+    method: 'GET',
+    mode: 'cors',
   };
 
   const res = await fetch(`${config.apiUrl}/profesor/id/${profesorId}`, requestOptions);
@@ -94,11 +89,10 @@ async function getProfesorById(profesorId){
   return data;
 }
 
-
-async function getMateriasBloqueadasById(profesorId){
+async function getMateriasBloqueadasById(profesorId) {
   const requestOptions = {
-    method: "GET",
-    mode: "cors",
+    method: 'GET',
+    mode: 'cors',
   };
 
   const res = await fetch(`${config.apiUrl}/materia_bloqueada/${profesorId}`, requestOptions);
@@ -106,10 +100,10 @@ async function getMateriasBloqueadasById(profesorId){
   return data;
 }
 
-async function getMateriasImpartidasById(profesorId){
+async function getMateriasImpartidasById(profesorId) {
   const requestOptions = {
-    method: "GET",
-    mode: "cors",
+    method: 'GET',
+    mode: 'cors',
   };
 
   const res = await fetch(`${config.apiUrl}/materia_impartida/profesor/${profesorId}`, requestOptions);
@@ -117,5 +111,14 @@ async function getMateriasImpartidasById(profesorId){
   return data;
 }
 
-
-
+export const profesorService = {
+  getAllProfesores,
+  getProfesorIdByMateriaId,
+  getProfesorIdByEspecialidadId,
+  getProfesorById,
+  getProfesorByNomina,
+  getMateriasBloqueadasById,
+  getProfesorIdByTipoContrato,
+  getMateriasImpartidasById,
+  editProfesor,
+};
