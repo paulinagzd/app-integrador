@@ -1,26 +1,32 @@
-import React from 'react'
-import { Form, Input, Button, Checkbox } from 'antd';
-
+import React, { useState } from "react";
+import { Form, Input, Button } from "antd";
+import PasswordModal from "../components/PasswordModal";
 
 export default function Admin() {
-    const onFinishFailed = (errorInfo) => {
-        console.log("Las contraseña es erronea:", errorInfo);
-      };
-    
-      //   async function onFinish(event) {
-      function onFinish() {
-        // event.preventDefault();
-    
-        try {
-          //   await Auth.signIn(email, password);
-          //   userHasAuthenticated(true);
-          console.log("contraseña adquirida")
-        } catch (e) {
-          alert(e.message);
-        }
-      }
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [form] = Form.useForm();
+  const onFinishFailed = (errorInfo) => {
+    console.log("Las contraseña es erronea:", errorInfo);
+  };
+
+  //   async function onFinish(event) {
+  function onFinish() {
+    // event.preventDefault();
+
+    try {
+      //   await Auth.signIn(email, password);
+      //   userHasAuthenticated(true);
+      console.log("contraseña adquirida");
+      form.resetFields();
+      setIsModalVisible(true);
+    } catch (e) {
+      alert(e.message);
+    }
+  }
+
   return (
     <Form
+      form={form}
       name="basic"
       labelCol={{
         span: 8,
@@ -35,18 +41,18 @@ export default function Admin() {
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-        <h3 style={{marginRight:"auto"}}>Cambio de contraseña</h3>
+      <h3 style={{ marginRight: "auto" }}>Cambio de contraseña</h3>
       <Form.Item
-        label="Introducir antigua contraseña"
-        name="cambiasContrasena"
+        label="Introducir contraseña actual"
+        name="cambiaContrasena"
         rules={[
           {
             required: true,
-            message: 'Introducir nueva contraseña!',
+            message: "Introducir contraseña!",
           },
         ]}
       >
-        <Input />
+        <Input.Password />
       </Form.Item>
 
       <Form.Item
@@ -59,6 +65,11 @@ export default function Admin() {
           Verificar
         </Button>
       </Form.Item>
+
+      <PasswordModal
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+      />
     </Form>
-  )
+  );
 }
