@@ -2,6 +2,7 @@ import { Fragment, useCallback, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Form, Input, Button, Checkbox, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
+import { authenticationServices } from "../services/authentication";
 
 const { Title } = Typography;
 
@@ -13,17 +14,18 @@ export default function Login(props) {
   };
 
   //   async function login(event) {
-  function onFinish() {
+  async function onFinish(values) {
     // event.preventDefault();
-
-    try {
+    const res = await authenticationServices.authenticateUser(values);
+    console.log(res);
+     /*try {
       //   await Auth.signIn(email, password);
       //   userHasAuthenticated(true);
       nav("/admin");
       props.setLoadNavBar(true)
     } catch (e) {
       alert(e.message);
-    }
+    }*/
   }
   return (
     <Fragment >
@@ -46,12 +48,12 @@ export default function Login(props) {
         autoComplete="off"
       >
         <Form.Item
-          label="Usuario"
-          name="usuario"
+          label="Correo"
+          name="email"
           rules={[
             {
               required: true,
-              message: "Introducir usuario!",
+              message: "Introducir correo!",
             },
           ]}
         >
@@ -60,7 +62,7 @@ export default function Login(props) {
 
         <Form.Item
           label="Contraseña"
-          name="contrasena"
+          name="password"
           rules={[
             {
               required: true,

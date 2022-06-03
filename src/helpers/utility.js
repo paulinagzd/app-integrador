@@ -16,7 +16,7 @@ export function handleResponse(response) {
       return response.json();
   }
   
-  return response.json().catch(( code, message) => {
+  return response.json().then(( code, message) => {
     // Got valid JSON with error response, use it
     throw new Error(`${code}: ${message}`);
   });
