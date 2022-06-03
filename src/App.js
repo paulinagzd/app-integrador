@@ -4,7 +4,6 @@ import Login from "./pages/Login";
 import Admin from "./pages/Admin";
 import Profesores from "./pages/Profesores";
 import Materias from "./pages/Materias";
-// import Inicio from "./pages/Inicio";
 import Reportes from "./pages/Reportes";
 import Navbar from "./components/Navbar";
 import "antd/dist/antd.css";
@@ -27,7 +26,7 @@ function App() {
     <div className="App">
       <Layout>
         <BrowserRouter>
-          {loadNavBar ? <Navbar /> : null}
+          {loadNavBar ? <Navbar setLoadNavBar={setLoadNavBar}/> : null}
           <Content style={{ padding: "0 50px" }}>
             <div className="site-layout-content">
               <Routes>
@@ -36,7 +35,6 @@ function App() {
                   path="/login"
                   element={<Login setLoadNavBar={setLoadNavBar} />}
                 />
-                {/* <Route path="/inicio" element={<Inicio />} /> */}
                 <Route path="/profesor" element={<Profesores />} end />
                 <Route path="/materia" element={<Materias />} />
                 <Route path="/reporte" element={<Reportes />} />

@@ -4,8 +4,7 @@ import "antd/dist/antd.less";
 import { materiaService } from "../services/materia";
 import ModalPage from "../components/ModalPage/ModalPage";
 import { filterService } from "../services/filter";
-import { subjectTypes } from "../constants/subject";
-import { openSection } from "../helpers/utility";
+
 
 const typeToLabel = (type) => {
   switch(type) {
@@ -68,7 +67,6 @@ const Materias = () => {
             action={"detail"}
             payload={materiaInfo[index]}
           />
-          {/* onClick={openSection.bind(this, materiaInfo[index].id, "detalle")} */}
         </>
       ),
     },

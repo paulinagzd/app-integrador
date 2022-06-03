@@ -4,7 +4,6 @@ import "antd/dist/antd.less";
 import { profesorService } from "../services/profesor";
 import ModalPage from "../components/ModalPage/ModalPage";
 import { filterService } from "../services/filter";
-import { openSection } from "../helpers/utility";
 
 const colorSelection = (color) => {
   color = color.toLowerCase();
@@ -69,7 +68,6 @@ const Profesores = () => {
             action={'detail'}
             payload={profesorInfo[index]}
           />
-          {/* onClick={openSection.bind(this, profesorInfo[index].id, "editar")} */}
         </>
       ),
     },
