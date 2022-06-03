@@ -15,6 +15,7 @@ export const profesorService = {
   getMateriasBloqueadasById,
   getProfesorIdByTipoContrato,
   getMateriasImpartidasById,
+  // editProfesor,
   editProfesor,
   // deleteProfesor,
 };

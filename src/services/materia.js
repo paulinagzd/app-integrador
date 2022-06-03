@@ -12,7 +12,8 @@ export const materiaService = {
   getAllMaterias,
   getMateriaIdByCodigo,
   getMateriaCodigoById,
-  getMateriaCIPById
+  getMateriaCIPById,
+  editMateria,
 };
 
 async function createMateria(data) {

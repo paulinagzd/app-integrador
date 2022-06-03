@@ -16,8 +16,12 @@ export default function Login(props) {
   //   async function login(event) {
   async function onFinish(values) {
     // event.preventDefault();
+    try {
     const res = await authenticationServices.authenticateUser(values);
     console.log(res);
+    } catch(e){
+      alert(e.message);
+    }
      /*try {
       //   await Auth.signIn(email, password);
       //   userHasAuthenticated(true);

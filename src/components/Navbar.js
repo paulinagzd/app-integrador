@@ -10,7 +10,7 @@ export default function Navbar() {
     profesor: "Profesores",
     materia: "Materias",
     reporte: "Reportes",
-    admin: "Admin",
+    upload: "Upload",
   };
 
   useEffect(() => {
