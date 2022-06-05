@@ -126,6 +126,10 @@ const OnFilterProfesor = (props) => {
         ).map((row) => {
           return row.id_profesor;
         });
+        profesoresId = await profesorService.getProfesorIdByEspecialidadId(
+            props.chosenEspecialidad
+          )
+        console.log(profesoresId);
       }
 
       //Obtiene los registros de los profesores segun los ids indicados
@@ -213,6 +217,7 @@ const OnFilterProfesor = (props) => {
       ///////////////////////////////////////////
       let loadedProfesores = [];
       for (const key in profesorRows) {
+        console.log(profesorRows);
         let binToString;
         let rows = { ...profesorRows[key][0] };
         if (rows.clase_en_ingles === true) {

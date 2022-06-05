@@ -1,6 +1,6 @@
 import { Fragment, useCallback, useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { Form, Input, Button, Checkbox, Typography } from "antd";
+import { Form, Input, Button, Checkbox, Typography, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { authenticationServices } from "../services/authentication";
 
@@ -13,23 +13,26 @@ export default function Login(props) {
     console.log("Failed:", errorInfo);
   };
 
+  
+  useEffect(() => {
+    props.setLoadNavBar(false);
+    authenticationServices.logout();
+  }, []); 
+
   //   async function login(event) {
   async function onFinish(values) {
     // event.preventDefault();
-    try {
     const res = await authenticationServices.authenticateUser(values);
-    console.log(res);
-    } catch(e){
-      alert(e.message);
-    }
-     /*try {
-      //   await Auth.signIn(email, password);
-      //   userHasAuthenticated(true);
+    if (res.status === "error"){
+      message.error(res.message);
+    } else {
+      console.log("LOGIN ", res.token);
+      localStorage.setItem("token", res.token);
+      console.log(localStorage);
       nav("/admin");
-      props.setLoadNavBar(true)
-    } catch (e) {
-      alert(e.message);
-    }*/
+      props.setLoadNavBar(true);
+    }
+
   }
   return (
     <Fragment >

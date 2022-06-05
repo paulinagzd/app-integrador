@@ -1,10 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, Button } from "antd";
 import PasswordModal from "../components/PasswordModal";
+import { authenticationServices } from "../services/authentication";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Admin() {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [form] = Form.useForm();
+  const nav = useNavigate();
+  
+  useEffect(() => {
+    if(!authenticationServices.currentUserValue){
+      nav("/login");
+    }
+  }, [authenticationServices.currentUserValue]); 
+
   const onFinishFailed = (errorInfo) => {
     console.log("Las contraseña es erronea:", errorInfo);
   };

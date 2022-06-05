@@ -9,13 +9,16 @@ import Reportes from "./pages/Reportes";
 import Navbar from "./components/Navbar";
 import "antd/dist/antd.css";
 import { Layout } from "antd";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Route, Routes, Navigate, BrowserRouter } from "react-router-dom";
+import { authenticationServices } from "./services/authentication";
 const { Content } = Layout;
 
 
 function App() {
   const [loadNavBar, setLoadNavBar] = useState(false);
+  //const [authUser, setAuthUser] = useState(authenticationServices.currentUserValue);
+  //const authUser = useRef()
   useEffect(() => {
     if (
       window.location.pathname !== "/" &&
@@ -24,6 +27,11 @@ function App() {
       setLoadNavBar(true);
     }
   }, []);
+
+  /*useEffect(() => {
+    authUser.current = authenticationServices.currentUserValue;
+    //setAuthUser(authenticationServices.currentUserValue);
+  }, [authenticationServices.currentUserValue]); */
   return (
     <div className="App">
       <Layout>
@@ -38,11 +46,24 @@ function App() {
                   element={<Login setLoadNavBar={setLoadNavBar} />}
                 />
                 {/* <Route path="/inicio" element={<Inicio />} /> */}
-                <Route path="/profesor" element={<Profesores />} end />
-                <Route path="/materia" element={<Materias />} />
-                <Route path="/reporte" element={<Reportes />} />
+                {/* {authenticationServices.currentUserValue ? <> 
+                <Route path="/profesor" element={ <Profesores /> } end />
+                <Route path="/materia" element={ <Materias /> } />
+                <Route path="/reporte" element={ <Reportes /> } />
                 <Route path="/admin" element={<Admin />} />
-                <Route path="/upload" element={<Upload />} />
+                <Route path="/upload" element={ <Upload /> }/>
+                </> : null}
+<Route path="/profesor" element={authenticationServices.currentUserValue ? <Profesores /> : <Navigate to="/login" replace />} end />
+                <Route path="/materia" element={authenticationServices.currentUserValue ? <Materias /> : <Navigate to="/login" replace />} />
+                <Route path="/reporte" element={authenticationServices.currentUserValue ? <Reportes /> : <Navigate to="/login" replace />} />
+                <Route path="/admin" element={authenticationServices.currentUserValue ? <Admin /> : <Navigate to="/login" replace />} />
+                <Route path="/upload" element={authenticationServices.currentUserValue ? <Upload /> : <Navigate to="/login" replace />}/>
+                */}
+                <Route path="/profesor" element={ <Profesores /> } end />
+                <Route path="/materia" element={ <Materias /> } />
+                <Route path="/reporte" element={ <Reportes /> } />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/upload" element={ <Upload /> }/>
               </Routes>
               {/* <FileDrop></FileDrop> */}
             </div>

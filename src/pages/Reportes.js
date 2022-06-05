@@ -4,12 +4,23 @@ import "antd/dist/antd.less";
 import MateriaFilter from "../components/Filter/MateriaFilter";
 import EspecialidadFilter from "../components/Filter/EspecialidadFilter";
 import ContratoFilter from "../components/Filter/ContratoFilter";
+import { useNavigate } from "react-router-dom";
+import { authenticationServices } from "../services/authentication";
+
 const { Title } = Typography;
 const { Option } = Select;
 
+
 export default function Reportes() {
   const [filter, setFilter] = useState();
+  const nav = useNavigate();
 
+  useEffect(() => {
+    if(!authenticationServices.currentUserValue){
+      nav("/login");
+    }
+  }, [authenticationServices.currentUserValue]); 
+  
   //Materia filtro
 //   const [materiaList, setMateriaList] = useState([]);
 //   const [materiaCodigoIdMap, setMateriaCodigoIdMap] = useState("");

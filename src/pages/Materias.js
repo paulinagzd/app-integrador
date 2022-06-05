@@ -6,6 +6,9 @@ import ModalPage from "../components/ModalPage/ModalPage";
 import { filterService } from "../services/filter";
 import { subjectTypes } from "../constants/subject";
 import { openSection } from "../helpers/utility";
+import { useNavigate } from "react-router-dom";
+import { authenticationServices } from "../services/authentication";
+
 
 const typeToLabel = (type) => {
   switch(type) {
@@ -100,10 +103,18 @@ const Materias = () => {
     },
   };
 
+  const nav = useNavigate();
+
   useEffect(() => {
     dataFetchMateriasHandler();
   }, [dataFetchMateriasHandler]);
-
+  
+  useEffect(() => {
+    if(!authenticationServices.currentUserValue){
+      nav("/login");
+    }
+  }, [authenticationServices.currentUserValue]); 
+  
   return (
     <Fragment>
       <Space

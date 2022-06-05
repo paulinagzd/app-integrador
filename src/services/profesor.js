@@ -44,9 +44,9 @@ async function getAllProfesores() {
   const requestOptions = {
     method: "GET",
     mode: "cors",
-    //credentials: 'include',
+    headers: getTokenHeader(),
+        //credentials: 'include',
   };
-
   const res = await fetch(`${config.apiUrl}/profesor`, requestOptions);
   const data = await handleResponse(res);
   return data;
@@ -56,6 +56,7 @@ async function getProfesorIdByMateriaId(materiaId){
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
   };
 
   const res = await fetch(`${config.apiUrl}/materia_impartida/materia/${materiaId}`, requestOptions);
@@ -67,6 +68,7 @@ async function getProfesorIdByEspecialidadId(especialidadId){
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
   };
 
   const res = await fetch(`${config.apiUrl}/tema_especialidad_profesor/${especialidadId}`, requestOptions);
@@ -78,6 +80,8 @@ async function getProfesorIdByTipoContrato(tipoContrato){
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/profesor/porContrato/${tipoContrato}`, requestOptions);
@@ -89,6 +93,8 @@ async function getProfesorById(profesorId){
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/profesor/id/${profesorId}`, requestOptions);
@@ -101,6 +107,8 @@ async function getMateriasBloqueadasById(profesorId){
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/materia_bloqueada/${profesorId}`, requestOptions);
@@ -112,6 +120,8 @@ async function getMateriasImpartidasById(profesorId){
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/materia_impartida/profesor/${profesorId}`, requestOptions);

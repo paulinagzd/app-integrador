@@ -1,5 +1,6 @@
 import { useContext } from "react";
-import { authenticationService } from "../services/authentication";
+import { authenticationServices } from "../services/authentication";
+import { useNavigate } from "react-router-dom";
 
 export function generateEncodedBody(details) {
   let formBody = [];
@@ -12,9 +13,13 @@ export function generateEncodedBody(details) {
 }
 
 export function handleResponse(response) {
+  
   if (response.ok) {
       return response.json();
   } else {
+    if (response.status == 403){
+      authenticationServices.logout();
+    }
     return response.json().then(function(error){
       throw new Error(`${error.errors[0].message} at ${error.errors[0].value}`)
       //throw new Error(`${error.original.code}: ${JSON.stringify(error.errors[0])}`)
@@ -24,12 +29,12 @@ export function handleResponse(response) {
 }
 
 export function getToken() {
-  return authenticationService.currentUserValue.token;
+  return authenticationServices.currentUserValue;
 }
 
 export function getTokenHeader() {
   return {
-    Authorization: `Bearer ${getToken()}`,
+    Authorization: `${getToken()}`,
   };
 }
 
@@ -37,7 +42,7 @@ export function getUrlEncodedAuthHeaders() {
   return {
     "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/x-www-form-urlencoded",
-    "Authorization": `Bearer: ${getToken()}`,
+    "Authorization": `${getToken()}`,
   //  " Access-Control-Allow-Credentials": true
   };
 }

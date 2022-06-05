@@ -2,18 +2,17 @@ import { BehaviorSubject } from 'rxjs';
 import { generateEncodedBody, getUrlEncodedAuthHeaders, handleResponse } from '../helpers/utility';
 import { config } from '../config';
 
-const user = {'id' : 0}
-localStorage.setItem('currentUser', JSON.stringify(user));
 
-const currentUserSubject = new BehaviorSubject(localStorage.getItem('currentUser'));
+//const currentUserSubject = new BehaviorSubject(localStorage.getItem('token'));
 
 export const authenticationServices = {
     authenticateUser,
+    get currentUserValue () { console.log("curruser ", localStorage.getItem('token')); return localStorage.getItem('token') },
+    logout,
   };
-export const authenticationService = {
-    currentUser: currentUserSubject.asObservable(),
-    get currentUserValue () { return currentUserSubject.value }
-};
+
+
+
 async function authenticateUser(data) {
     const email = data['email'];
     const pwd = data['password'];
@@ -28,15 +27,11 @@ async function authenticateUser(data) {
     return fetch(`${config.apiUrl}/user/login?email=${email}&password=${pwd}`, requestOptions)
       .then(handleResponse);
 }
-  /*
-const user = {'id' : 0}
-localStorage.setItem('currentUser', JSON.stringify(user));
 
-const currentUserSubject = new BehaviorSubject(localStorage.getItem('currentUser'));
-
-export const authenticationService = {
-    currentUser: currentUserSubject.asObservable(),
-    get currentUserValue () { return currentUserSubject.value }
-};
-
-*/
+function logout() {
+  console.log("pre remove");
+  console.log(localStorage);
+  localStorage.removeItem('token');
+  console.log("post remove");
+  console.log(localStorage);
+}

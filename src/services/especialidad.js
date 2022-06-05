@@ -1,4 +1,4 @@
-import { handleResponse } from "../helpers/utility";
+import { handleResponse, getTokenHeader} from "../helpers/utility";
 import { config } from "../config";
 
 export const especialidadService = {
@@ -9,6 +9,8 @@ async function getAllEspecialidades() {
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/tema_especialidad`, requestOptions);

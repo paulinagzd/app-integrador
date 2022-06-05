@@ -5,6 +5,10 @@ import {React, useState, useCallback, useEffect} from 'react';
 import {useDropzone} from 'react-dropzone';
 import Papa from 'papaparse';
 import { createService } from '../services/create';
+import { useNavigate } from "react-router-dom";
+import { authenticationServices } from "../services/authentication";
+
+
 
 
 function Upload() {
@@ -66,7 +70,15 @@ function Upload() {
       parseFile(acceptedFiles[0]);
     }
   };
+  
+  const nav = useNavigate();
 
+  useEffect(() => {
+    if(!authenticationServices.currentUserValue){
+      nav("/login");
+    }
+  }, [authenticationServices.currentUserValue]); 
+  
   useEffect(() => {
     if (parsedCsvData.length){
       //console.log("Parsed CSV: ", parsedCsvData);

@@ -56,6 +56,8 @@ async function getAllMaterias() {
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/materia`, requestOptions);
@@ -68,6 +70,8 @@ async function getMateriaIdByCodigo(codigo) {
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/materia/${codigo}`, requestOptions);
@@ -79,6 +83,8 @@ async function getMateriaCodigoById(materiaId) {
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/materia/id/${materiaId}`, requestOptions);
@@ -90,6 +96,7 @@ async function getMateriaCIPById(profesorId){
   const requestOptions = {
     method: "GET",
     mode: "cors",
+    headers: getTokenHeader(),
   };
 
   const res = await fetch(`${config.apiUrl}/materia/id/${profesorId}`, requestOptions);

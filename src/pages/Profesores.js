@@ -5,6 +5,8 @@ import { profesorService } from "../services/profesor";
 import ModalPage from "../components/ModalPage/ModalPage";
 import { filterService } from "../services/filter";
 import { openSection } from "../helpers/utility";
+import { useNavigate } from "react-router-dom";
+import { authenticationServices } from "../services/authentication";
 
 const colorSelection = (color) => {
   color = color.toLowerCase();
@@ -98,11 +100,18 @@ const Profesores = () => {
       setChosenProfesores(selectedRows.map((sr) => sr.nomina));
     },
   };
+  const nav = useNavigate();
 
   useEffect(() => {
     dataFetchProfesoresHandler();
   }, [dataFetchProfesoresHandler]);
 
+  useEffect(() => {
+    if(!authenticationServices.currentUserValue){
+      nav("/login");
+    }
+  }, [authenticationServices.currentUserValue]); 
+  
   return (
       <Fragment>
       <Space
