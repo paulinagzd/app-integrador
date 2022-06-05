@@ -135,29 +135,32 @@ const OnFilterProfesor = (props) => {
       //Obtiene los registros de los profesores segun los ids indicados
       const profesorRows = await Promise.all(
         profesoresId.map(async (key) => {
-          return await profesorService.getProfesorById(key);
+          const test = await profesorService.getProfesorById(key.id_profesor);
+          console.log(key);
+          return test;
         })
       ); 
+
+    
 
       // Obtienen los ECOAS y CIPs
       const cips = {};
       const ecoas = {};
       await Promise.all(
         profesoresId.map(async (key) => {
-          return (await profesorService.getMateriasImpartidasById(key)).map((row) => {
-            if (!cips[key]) {
-              cips[key] = [];
+          return (await profesorService.getMateriasImpartidasById(key.id_profesor)).map((row) => {
+            if (!cips[key.id_profesor]) {
+              cips[key.id_profesor] = [];
             }
-            cips[key].push(row.id_materia);
-            if (!ecoas[key]) {
-              ecoas[key] = [];
+            cips[key.id_profesor].push(row.id_materia);
+            if (!ecoas[key.id_profesor]) {
+              ecoas[key.id_profesor] = [];
             }
-            ecoas[key].push([row.id_materia, row.calificacion_ecoa]);
+            ecoas[key.id_profesor].push([row.id_materia, row.calificacion_ecoa]);
             return cips, ecoas;
           });
         })
       );
-
       for (const key in cips) {
         for (const row in cips[key]) {
           cips[key][row] = [
@@ -182,13 +185,18 @@ const OnFilterProfesor = (props) => {
       const materiasBloqueadas = {};
       await Promise.all(
         profesoresId.map(async (key, idx) => {
-          return (await profesorService.getMateriasBloqueadasById(key)).map(
+          console.log("MB KEY", key);
+          console.log("MB IDX", idx);
+          console.log("MB profid", profesoresId);
+
+          return (await profesorService.getMateriasBloqueadasById(key.id_profesor)).map(
             (row) => {
-              if (!materiasBloqueadas[profesoresId[idx]]) {
-                materiasBloqueadas[profesoresId[idx]] = [];
+              if (!materiasBloqueadas[profesoresId[idx].id_profesor]) {
+                materiasBloqueadas[profesoresId[idx].id_profesor] = [];
               }
 
-              materiasBloqueadas[profesoresId[idx]].push(row.id_materia);
+              materiasBloqueadas[profesoresId[idx].id_profesor].push(row.id_materia);
+
               return materiasBloqueadas;
             }
           );
@@ -217,7 +225,9 @@ const OnFilterProfesor = (props) => {
       ///////////////////////////////////////////
       let loadedProfesores = [];
       for (const key in profesorRows) {
-        console.log(profesorRows);
+        
+        console.log("Key ", key);
+        console.log("prof, key ", profesorRows[key][0]);
         let binToString;
         let rows = { ...profesorRows[key][0] };
         if (rows.clase_en_ingles === true) {
@@ -231,12 +241,14 @@ const OnFilterProfesor = (props) => {
         rows["cip"] = cips[rows.id]; 
         rows["materia_bloqueada"] = codigoMaterias[rows.id];
         rows["ecoa"] = ecoas[rows.id];
-
+        console.log("rows ", rows);
         loadedProfesores.push(rows);
       }
       props.onChange(loadedProfesores);
       setProfesorInfo(loadedProfesores);
+
     } catch (error) {
+      console.log("Profesor info ", profesorInfo);
       console.log(error);
     }
   }, [props.chosenMateria, props.chosenEspecialidad]);

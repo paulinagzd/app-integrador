@@ -96,7 +96,7 @@ async function getProfesorById(profesorId){
     headers: getTokenHeader(),
 
   };
-
+  console.log("get ", profesorId);
   const res = await fetch(`${config.apiUrl}/profesor/id/${profesorId}`, requestOptions);
   const data = await handleResponse(res);
   return data;

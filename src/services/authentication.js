@@ -7,7 +7,7 @@ import { config } from '../config';
 
 export const authenticationServices = {
     authenticateUser,
-    get currentUserValue () { console.log("curruser ", localStorage.getItem('token')); return localStorage.getItem('token') },
+    get currentUserValue () { return localStorage.getItem('token') },
     logout,
   };
 
