@@ -8,6 +8,9 @@ import { config } from '../config';
 export const authenticationServices = {
     authenticateUser,
     get currentUserValue () { return localStorage.getItem('token') },
+    get currentUserName () { return localStorage.getItem('user') },
+    authenticatePassword,
+    changePassword,
     logout,
   };
 
@@ -19,19 +22,45 @@ async function authenticateUser(data) {
     const requestOptions = {
       method: "GET",
       mode: "cors",
-      //headers: getUrlEncodedAuthHeaders(),
-      //body: generateEncodedBody(details),
+
     };
-    //console.log(requestOptions);
     
     return fetch(`${config.apiUrl}/user/login?email=${email}&password=${pwd}`, requestOptions)
       .then(handleResponse);
 }
 
+async function authenticatePassword(data) {
+  const email = localStorage.getItem('user');
+  const pwd = data
+  const requestOptions = {
+    method: "GET",
+    mode: "cors",
+
+  };
+  
+  return fetch(`${config.apiUrl}/user/checkPwd?email=${email}&password=${pwd}`, requestOptions)
+    .then(handleResponse);
+}
+
+async function changePassword(data) {
+  const email = localStorage.getItem('user');
+  const pwd = data;
+  const details = {email : email, password : pwd}
+  console.log(details);
+
+  const requestOptions = {
+    method: "PUT",
+    mode: "cors",
+    headers: getUrlEncodedAuthHeaders(),
+    body: generateEncodedBody(details),
+  };
+  console.log(requestOptions);
+  return fetch(`${config.apiUrl}/user/changePwd`, requestOptions)
+    .then(handleResponse);
+}
+
 function logout() {
-  console.log("pre remove");
-  console.log(localStorage);
   localStorage.removeItem('token');
-  console.log("post remove");
-  console.log(localStorage);
+  localStorage.removeItem('user');
+
 }

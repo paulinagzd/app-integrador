@@ -129,14 +129,12 @@ const OnFilterProfesor = (props) => {
         profesoresId = await profesorService.getProfesorIdByEspecialidadId(
             props.chosenEspecialidad
           )
-        console.log(profesoresId);
       }
 
       //Obtiene los registros de los profesores segun los ids indicados
       const profesorRows = await Promise.all(
         profesoresId.map(async (key) => {
           const test = await profesorService.getProfesorById(key.id_profesor);
-          console.log(key);
           return test;
         })
       ); 
@@ -185,9 +183,6 @@ const OnFilterProfesor = (props) => {
       const materiasBloqueadas = {};
       await Promise.all(
         profesoresId.map(async (key, idx) => {
-          console.log("MB KEY", key);
-          console.log("MB IDX", idx);
-          console.log("MB profid", profesoresId);
 
           return (await profesorService.getMateriasBloqueadasById(key.id_profesor)).map(
             (row) => {
@@ -226,8 +221,6 @@ const OnFilterProfesor = (props) => {
       let loadedProfesores = [];
       for (const key in profesorRows) {
         
-        console.log("Key ", key);
-        console.log("prof, key ", profesorRows[key][0]);
         let binToString;
         let rows = { ...profesorRows[key][0] };
         if (rows.clase_en_ingles === true) {
@@ -241,14 +234,12 @@ const OnFilterProfesor = (props) => {
         rows["cip"] = cips[rows.id]; 
         rows["materia_bloqueada"] = codigoMaterias[rows.id];
         rows["ecoa"] = ecoas[rows.id];
-        console.log("rows ", rows);
         loadedProfesores.push(rows);
       }
       props.onChange(loadedProfesores);
       setProfesorInfo(loadedProfesores);
 
     } catch (error) {
-      console.log("Profesor info ", profesorInfo);
       console.log(error);
     }
   }, [props.chosenMateria, props.chosenEspecialidad]);

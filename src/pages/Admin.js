@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import PasswordModal from "../components/PasswordModal";
 import { authenticationServices } from "../services/authentication";
 import { useNavigate } from "react-router-dom";
@@ -21,18 +21,25 @@ export default function Admin() {
   };
 
   //   async function onFinish(event) {
-  function onFinish() {
+  async function onFinish(value) {
     // event.preventDefault();
-
-    try {
+    console.log("contraseña adquirida");
+    const res = await authenticationServices.authenticatePassword(value["cambiaContrasena"]);
+    if (res.status === "error"){
+      message.error(res.message);
+    } else {
+      form.resetFields();
+      setIsModalVisible(true);
+    }
+    // try {
       //   await Auth.signIn(email, password);
       //   userHasAuthenticated(true);
-      console.log("contraseña adquirida");
-      form.resetFields();
+
+/*       form.resetFields();
       setIsModalVisible(true);
     } catch (e) {
       alert(e.message);
-    }
+    } */
   }
 
   return (

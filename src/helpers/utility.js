@@ -13,7 +13,6 @@ export function generateEncodedBody(details) {
 }
 
 export function handleResponse(response) {
-  
   if (response.ok) {
       return response.json();
   } else {

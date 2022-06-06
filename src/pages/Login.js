@@ -26,9 +26,9 @@ export default function Login(props) {
     if (res.status === "error"){
       message.error(res.message);
     } else {
-      console.log("LOGIN ", res.token);
+      //localStorage.setItem("user", res.)
+      localStorage.setItem("user", res.email);
       localStorage.setItem("token", res.token);
-      console.log(localStorage);
       nav("/admin");
       props.setLoadNavBar(true);
     }
