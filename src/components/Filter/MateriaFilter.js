@@ -87,6 +87,8 @@ export default function MateriaFilter(props) {
     { label: "Unidades de Carga Máximas", key: "unidades_de_carga_max" },
     { label: "Clases en Inglés", key: "clase_en_ingles" },
     { label: "Histórico de ECOAS", key: "ecoa" },
+    { label: "Notas", key: "notas" },
+
   ];
 
   const csvReport = {

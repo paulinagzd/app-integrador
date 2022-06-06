@@ -102,6 +102,11 @@ const OnFilterProfesor = (props) => {
           </Panel>
         </Collapse>
       ),
+    },    
+    {
+      title: "Notas",
+      dataIndex: "notas",
+      id: "notas",
     },
   ];
 
