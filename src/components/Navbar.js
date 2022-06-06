@@ -31,7 +31,7 @@ export default function Navbar() {
           defaultSelectedKeys={tab || "inicio"}
           style={{
             display: "block",
-            width: 550,
+            width: 800,
             marginTop: "20px",
             marginLeft: "auto",
             backgroundColor: "transparent",
@@ -86,6 +86,13 @@ export default function Navbar() {
             <Link to="/admin">
               <Title strong level={5} style={{ color: "orange" }}>
                 Admin
+              </Title>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="logout" onClick={() => setTitle("Logout")}>
+            <Link to="/login">
+              <Title strong level={5} style={{ color: "#ACAEB0"}}>
+                Logout
               </Title>
             </Link>
           </Menu.Item>
