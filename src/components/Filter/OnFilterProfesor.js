@@ -85,12 +85,16 @@ const OnFilterProfesor = (props) => {
               <tr>
                 <th>Código</th>
                 <th>Calificación</th>
+                <th>Fecha</th>
+
               </tr>
               {tags.map((ecoa) => {
                 return (
                   <tr key={ecoa}>
                     <td>{ecoa[0]} </td>
                     <td>{ecoa[1]} </td>
+                    <td>{ecoa[2]} </td>
+
                   </tr>
                 );
               })}
@@ -126,15 +130,13 @@ const OnFilterProfesor = (props) => {
         ).map((row) => {
           return row.id_profesor;
         });
-        profesoresId = await profesorService.getProfesorIdByEspecialidadId(
-            props.chosenEspecialidad
-          )
+
       }
 
       //Obtiene los registros de los profesores segun los ids indicados
       const profesorRows = await Promise.all(
         profesoresId.map(async (key) => {
-          const test = await profesorService.getProfesorById(key.id_profesor);
+          const test = await profesorService.getProfesorById(key);
           return test;
         })
       ); 
@@ -146,15 +148,17 @@ const OnFilterProfesor = (props) => {
       const ecoas = {};
       await Promise.all(
         profesoresId.map(async (key) => {
-          return (await profesorService.getMateriasImpartidasById(key.id_profesor)).map((row) => {
-            if (!cips[key.id_profesor]) {
-              cips[key.id_profesor] = [];
+          return (await profesorService.getMateriasImpartidasById(key)).map((row) => {
+            if (!cips[key]) {
+              cips[key] = [];
             }
-            cips[key.id_profesor].push(row.id_materia);
-            if (!ecoas[key.id_profesor]) {
-              ecoas[key.id_profesor] = [];
+            cips[key].push(row.id_materia);
+            
+            
+            if (!ecoas[key]) {
+              ecoas[key] = [];
             }
-            ecoas[key.id_profesor].push([row.id_materia, row.calificacion_ecoa]);
+            ecoas[key].push([row.id_materia, row.calificacion_ecoa, row.fecha.substring(0,10)]);
             return cips, ecoas;
           });
         })
@@ -184,13 +188,13 @@ const OnFilterProfesor = (props) => {
       await Promise.all(
         profesoresId.map(async (key, idx) => {
 
-          return (await profesorService.getMateriasBloqueadasById(key.id_profesor)).map(
+          return (await profesorService.getMateriasBloqueadasById(key)).map(
             (row) => {
-              if (!materiasBloqueadas[profesoresId[idx].id_profesor]) {
-                materiasBloqueadas[profesoresId[idx].id_profesor] = [];
+              if (!materiasBloqueadas[profesoresId[idx]]) {
+                materiasBloqueadas[profesoresId[idx]] = [];
               }
 
-              materiasBloqueadas[profesoresId[idx].id_profesor].push(row.id_materia);
+              materiasBloqueadas[profesoresId[idx]].push(row.id_materia);
 
               return materiasBloqueadas;
             }
@@ -235,6 +239,7 @@ const OnFilterProfesor = (props) => {
         rows["materia_bloqueada"] = codigoMaterias[rows.id];
         rows["ecoa"] = ecoas[rows.id];
         loadedProfesores.push(rows);
+        
       }
       props.onChange(loadedProfesores);
       setProfesorInfo(loadedProfesores);
