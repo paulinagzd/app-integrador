@@ -50,11 +50,16 @@ const Materias = () => {
             type="materia"
             action="edit"
             payload={materiaInfo[index]}
+            index={index}
+            record={record}
           />
           <ModalPage
             type="materia"
             action="detail"
             payload={materiaInfo[index]}
+            index={index}
+            record={record}
+
           />
         </>
       ),

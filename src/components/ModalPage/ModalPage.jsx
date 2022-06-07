@@ -12,6 +12,7 @@ const ModalPage = ({
   payload,
   // onDeleteOk,
   index,
+  record,
 }) => {
   // const [deleteWarning, setDeleteWarning] = useState(false);
 
@@ -42,6 +43,8 @@ const ModalPage = ({
   //     </p>
   //   </Modal>
   // );
+
+  console.log("INDEX QUE MANDO", index, index%10, record)
 
   return (
     <div>

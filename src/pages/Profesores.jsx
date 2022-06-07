@@ -113,7 +113,7 @@ const Profesores = () => {
       // action={action}
       // index={index}
       // disabled={action === 'detail'}
-        onCancel={() => onCancelModal('profesor')}
+        // onCancel={() => onCancelModal('profesor')}
       />
     </>
   );

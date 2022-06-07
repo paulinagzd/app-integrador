@@ -25,8 +25,9 @@ const { Step } = Steps;
 
 const GeneralInfo = () => {
   const {
-    selected, onCheck,
+    selected, onCheck, checked, action,
   } = usePageProvider();
+
   return (
     <>
       <Form.Item
@@ -40,6 +41,7 @@ const GeneralInfo = () => {
           }]}
       >
         <Input
+          disabled={action==='detail'}
           placeholder="Nómina o matrícula"
           name="nomina"
           required
@@ -47,6 +49,7 @@ const GeneralInfo = () => {
       </Form.Item>
       <Form.Item label="Nombre" name="nombre">
         <Input
+          disabled={action==='detail'}
           placeholder="Nombre del profesor"
           name="nombreProfesor"
           required
@@ -59,6 +62,7 @@ const GeneralInfo = () => {
         <Col span={12}>
           <Form.Item label="Correo institucional" name="correo_institucional">
             <Input
+              disabled={action==='detail'}
               placeholder="ejemplo@tec.mx"
               name="correoInstitucional"
             />
@@ -67,6 +71,7 @@ const GeneralInfo = () => {
         <Col span={12}>
           <Form.Item label="Correo personal" name="correo_personal">
             <Input
+              disabled={action==='detail'}
               placeholder="ejemplo@mail.com"
               name="correoPersonal"
             />
@@ -80,6 +85,7 @@ const GeneralInfo = () => {
         <Col span={8}>
           <Form.Item label="Teléfono" name="telefono">
             <Input
+              disabled={action==='detail'}
               placeholder="Teléfono del profesor"
               name="telefono"
             />
@@ -88,6 +94,7 @@ const GeneralInfo = () => {
         <Col span={8}>
           <Form.Item label="Estatus interno" name="estatus_interno">
             <Select
+              disabled={action==='detail'}
               options={professorStatus}
             />
           </Form.Item>
@@ -95,6 +102,7 @@ const GeneralInfo = () => {
         <Col span={8}>
           <Form.Item label="Tipo" name="tipo">
             <Select
+              disabled={action==='detail'}
               options={professorTypes}
             />
           </Form.Item>
@@ -117,6 +125,7 @@ const GeneralInfo = () => {
               }]}
           >
             <InputNumber
+              disabled={action==='detail'}
               placeholder="Unidades de Carga Máximas"
               name="unidadesCargaMax"
             />
@@ -125,22 +134,26 @@ const GeneralInfo = () => {
         <Form.Item label="Clase en inglés?" name="clase_en_ingles">
           <Col span={12}>
             <Checkbox
+              disabled={action==='detail'}
               defaultChecked={
                 selected && selected.clase_en_ingles ? selected.clase_en_ingles : false
               }
               onChange={(e) => onCheck(e.target.checked)}
+              checked={checked}
             />
           </Col>
         </Form.Item>
       </Row>
       <Form.Item label="Empresa donde trabaja" name="empresa_donde_trabaja">
         <Input
+          disabled={action==='detail'}
           placeholder="Empresa donde trabaja"
           name="empresaDondeTrabaja"
         />
       </Form.Item>
       <Form.Item label="Comentarios" name="notas">
         <TextArea
+          disabled={action==='detail'}
           showCount
           maxLength={100}
         />
@@ -151,7 +164,7 @@ const GeneralInfo = () => {
 
 const MateriasStep = () => {
   const {
-    selected, action,
+    selected, action, checked
   } = usePageProvider();
 
   return (
@@ -160,6 +173,7 @@ const MateriasStep = () => {
       <>
         <Form.Item label="Temas de especialidad" name="tema_especialidad">
           <Select
+            disabled={action==='detail'}
             mode="multiple"
             allowClear
             style={{ width: '100%' }}
@@ -172,6 +186,7 @@ const MateriasStep = () => {
         </Form.Item>
         <Form.Item label="Grados académicos" name="grado_academico">
           <Select
+            disabled={action==='detail'}
             mode="multiple"
             allowClear
             style={{ width: '100%' }}
@@ -184,6 +199,7 @@ const MateriasStep = () => {
         </Form.Item>
         <Form.Item label="Materias impartidas" name="materia_impartida">
           <Select
+            disabled={action==='detail'}
             mode="multiple"
             allowClear
             style={{ width: '100%' }}
@@ -196,6 +212,7 @@ const MateriasStep = () => {
         </Form.Item>
         <Form.Item label="Materias bloqueadas" name="materia_bloqueada">
           <Select
+            disabled={action==='detail'}
             mode="multiple"
             allowClear
             style={{ width: '100%' }}
@@ -261,32 +278,66 @@ const ProfessorModalForm = ({
 
   const steps = [
     {
-      title: 'General Information',
+      title: 'Información',
       content: <GeneralInfo />,
     },
     {
       title: 'Materias',
       content: <MateriasStep />,
     },
-    {
-      title: 'ECOA',
-      content: 'Evaluaciones',
-    },
+    // {
+    //   title: 'ECOA',
+    //   content: 'Evaluaciones',
+    // },
   ];
+
+  console.log("ACTION MODAL FORM", action, action === 'detail')
+
+  const StepButtons = () => {
+    console.log("CYRREBT", current)
+    return (
+    <>
+    {current == 0 && (
+    <Button type="primary" onClick={() => next()}>
+      Next
+    </Button>
+    )}
+    {/* {current === steps.length - 1 && (
+    <Button type="primary">
+      Done
+    </Button>
+    )} */}
+    {current > 0 && (
+    <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+      Previous
+    </Button>
+    )}
+    </>
+  )}
 
   return (
     <Modal
       mask={false}
       title="Profesor"
       visible={visibleProfesorModal}
-      onCancel={onCancel}
+      onCancel={() => onCancelModal('profesor')}
       onOk={handleOk}
       confirmLoading={confirmLoading}
+      footer={[
+        <Button key="back" onClick={() => onCancelModal('profesor')}>
+          Cancel
+        </Button>,
+        <StepButtons/>,
+        <Button key="submit" type="primary" onClick={handleOk}>
+          Submit
+        </Button>
+      ]}
     >
       <Form
         form={form}
         layout="vertical"
-        initialValues={selected}
+        initialValues={{...selected, disabled: action === 'detail'}}
+        disabled={true}
       >
         <Steps current={current}>
           {steps.map((item) => (
@@ -295,7 +346,7 @@ const ProfessorModalForm = ({
         </Steps>
         <div className="steps-content">{steps[current].content}</div>
         <div>
-          <div className="steps-action">
+          {/* <div className="steps-action">
             {current < steps.length - 1 && (
             <Button type="primary" onClick={() => next()}>
               Next
@@ -311,7 +362,7 @@ const ProfessorModalForm = ({
               Previous
             </Button>
             )}
-          </div>
+          </div> */}
         </div>
       </Form>
     </Modal>

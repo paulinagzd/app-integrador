@@ -11,6 +11,7 @@ export const useController = () => {
   const [selected, setSelected] = useState({});
   const [action, setAction] = useState();
   const [index, setIndex] = useState();
+  const [checked, setChecked] = useState(selected && selected.clase_en_ingles ? selected.clase_en_ingles : false);
 
   const {
     getMateriaIdByCodigo,
@@ -103,6 +104,7 @@ export const useController = () => {
   });
 
   const onSetVisible = (type, payload, a, i) => {
+    console.log("ACTION", a)
     setAction(a);
     setIndex(i);
     if (payload) {
@@ -125,14 +127,18 @@ export const useController = () => {
     } else {
       setVisibleProfesorModal(false);
     }
-    setSelected(null);
+    if (selected !== {}) setSelected(null);
   };
 
-  const onCheck = (checked) => {
-    setSelected({
-      ...selected,
-      clase_en_ingles: checked,
-    });
+  const onCheck = (checkedVal) => {
+    console.log(selected)
+    setChecked(checkedVal)
+    if (selected !== {}) {
+      setSelected({
+        ...selected,
+        clase_en_ingles: checkedVal,
+      });
+    }
   };
 
   return {
@@ -144,5 +150,6 @@ export const useController = () => {
     selected,
     action,
     index,
+    checked,
   };
 };
