@@ -103,19 +103,6 @@ async function createMateriasImpartidas(data) {
     .then(handleResponse);
 }
 
-async function createECOA(data) {
-  const details = data;
-
-  const requestOptions = {
-    method: 'POST',
-    mode: 'cors',
-    headers: getUrlEncodedAuthHeaders(),
-    body: generateEncodedBody(details),
-  };
-
-  return fetch(`${config.apiUrl}/ecoa`, requestOptions)
-    .then(handleResponse);
-}
 
 async function createMateriasBloqueadas(data) {
   const details = data;

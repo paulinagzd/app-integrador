@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable guard-for-in */
 /* eslint-disable no-console */
-import { authenticationService } from '../services/authentication';
+import { authenticationServices } from '../services/authentication';
 
 export function generateEncodedBody(details) {
   const formBody = [];
@@ -15,31 +15,32 @@ export function generateEncodedBody(details) {
 
 export function handleResponse(response) {
   if (response.ok) {
-    return response.json();
+      return response.json();
+  } else {
+    if (response.status == 403){
+      authenticationServices.logout();
+    }
+    return response.json().then(function(error){
+      throw new Error(`${error.errors[0].message} at ${error.errors[0].value}`)
+    });
   }
-
-  return response.json().catch((code, message) => {
-    // Got valid JSON with error response, use it
-    throw new Error(`${code}: ${message}`);
-  });
 }
 
 export function getToken() {
-  return authenticationService.currentUserValue.token;
+  return authenticationServices.currentUserValue;
 }
 
 export function getTokenHeader() {
   return {
-    Authorization: `Bearer ${getToken()}`,
+    Authorization: `${getToken()}`,
   };
 }
 
 export function getUrlEncodedAuthHeaders() {
   return {
-    'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/x-www-form-urlencoded',
-    Authorization: `Bearer: ${getToken()}`,
-  //  " Access-Control-Allow-Credentials": true
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Authorization": `${getToken()}`,
   };
 }
 

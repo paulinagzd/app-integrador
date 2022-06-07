@@ -16,28 +16,37 @@ import { PageProvider } from './pages/providers';
 
 const { Content } = Layout;
 
-const App = () => (
-  <div className="App">
+const App = () => {
+  const [loadNavBar, setLoadNavBar] = useState(false);
+  useEffect(() => {
+    if (
+      window.location.pathname !== "/" &&
+      window.location.pathname !== "/login"
+    ) {
+      setLoadNavBar(true);
+    }
+  }, []);
+
+  return (
+    <div className="App">
     <PageProvider>
       <Layout>
         <BrowserRouter>
-          <Navbar />
-          <Content style={{ padding: '0 50px' }}>
+          {loadNavBar ? <Navbar /> : null}
+          <Content style={{ padding: "0 50px" }}>
             <div className="site-layout-content">
               <Routes>
-                <Route path="/" element={<Navigate to="/inicio" replace />} />
-                <Route path="/inicio" element={<Inicio />} />
-                <Route path="/profesor" element={<Profesores />} end />
-                <Route path="/materia" element={<Materias />} />
-                <Route path="/reporte" element={<Reportes />} />
-                {/* <Route path="/admin" element={<Admin/>} />  */}
-                <Route path="/upload" element={<Upload />} />
-                {/* <Route path="/reportes" element={<Reportes/>} />
-                <Route path="/admin" element={<Admin/>} /> */}
+                <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route
+                  path="/login"
+                  element={<Login setLoadNavBar={setLoadNavBar} />}
+                />
+                <Route path="/profesor" element={ <Profesores /> } end />
+                <Route path="/materia" element={ <Materias /> } />
+                <Route path="/reporte" element={ <Reportes /> } />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/upload" element={ <Upload /> }/>
               </Routes>
-
-              {/* <Profesores /> */}
-              {/* <FileDrop></FileDrop> */}
             </div>
           </Content>
         </BrowserRouter>
@@ -45,30 +54,7 @@ const App = () => (
     </PageProvider>
   </div>
 );
+}
 
 export default App;
 
-{
-  /* <Header>
-          <div className="logo" />
-          <Menu
-            theme="dark"
-            mode="horizontal"
-            defaultSelectedKeys={["2"]}
-            // items={new Array(15).fill(null).map((_, index) => {
-            //   const key = index + 1;
-            //   return {
-            //     key,
-            //     label: `nav ${key}`,
-            //   };
-            // })}
-          >
-            <Button>Inicio</Button>
-            <Button>Profesores</Button>
-            <Button>Materias</Button>
-            <Button>Reportes</Button>
-            <Button>Admin</Button>
-
-          </Menu>
-          </Header> */
-}

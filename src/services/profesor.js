@@ -24,11 +24,11 @@ async function editProfesor(data, id) {
 
 async function getAllProfesores() {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
-    // credentials: 'include',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
+        //credentials: 'include',
   };
-
   const res = await fetch(`${config.apiUrl}/profesor`, requestOptions);
   const data = await handleResponse(res);
   return data;
@@ -36,8 +36,9 @@ async function getAllProfesores() {
 
 async function getProfesorIdByMateriaId(materiaId) {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
   };
 
   const res = await fetch(`${config.apiUrl}/materia_impartida/materia/${materiaId}`, requestOptions);
@@ -47,8 +48,9 @@ async function getProfesorIdByMateriaId(materiaId) {
 
 async function getProfesorIdByEspecialidadId(especialidadId) {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
   };
 
   const res = await fetch(`${config.apiUrl}/tema_especialidad_profesor/${especialidadId}`, requestOptions);
@@ -58,8 +60,10 @@ async function getProfesorIdByEspecialidadId(especialidadId) {
 
 async function getProfesorIdByTipoContrato(tipoContrato) {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/profesor/porContrato/${tipoContrato}`, requestOptions);
@@ -69,11 +73,12 @@ async function getProfesorIdByTipoContrato(tipoContrato) {
 
 async function getProfesorByNomina(nomina) {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
-  };
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
 
-  const res = await fetch(`${config.apiUrl}/profesor/${nomina}`, requestOptions);
+  };
+  const res = await fetch(`${config.apiUrl}/profesor/id/${profesorId}`, requestOptions);
   const data = await handleResponse(res);
   return data;
 }
@@ -91,8 +96,10 @@ async function getProfesorById(profesorId) {
 
 async function getMateriasBloqueadasById(profesorId) {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/materia_bloqueada/${profesorId}`, requestOptions);
@@ -102,8 +109,10 @@ async function getMateriasBloqueadasById(profesorId) {
 
 async function getMateriasImpartidasById(profesorId) {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/materia_impartida/profesor/${profesorId}`, requestOptions);

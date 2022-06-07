@@ -1,10 +1,13 @@
-import { handleResponse } from '../helpers/utility';
-import { config } from '../config';
+import { handleResponse, getTokenHeader} from "../helpers/utility";
+import { config } from "../config";
+
 
 async function getAllEspecialidades() {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/tema_especialidad`, requestOptions);
@@ -16,6 +19,7 @@ async function getEspecialidadByProfesor(profesorId) {
   const requestOptions = {
     method: 'GET',
     mode: 'cors',
+    headers: getTokenHeader(),
   };
 
   const res = await fetch(`${config.apiUrl}/tema_especialidad_profesor/profesor/${profesorId}`, requestOptions);

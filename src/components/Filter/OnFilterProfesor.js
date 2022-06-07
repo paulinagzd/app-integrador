@@ -94,23 +94,28 @@ function OnFilterProfesor(props) {
               <tr>
                 <th>Código</th>
                 <th>Calificación</th>
+                <th>Fecha</th>
+
               </tr>
-              {tags.map((ecoa) => (
-                <tr key={ecoa}>
-                  <td>
-                    {ecoa[0]}
-                    {' '}
-                  </td>
-                  <td>
-                    {ecoa[1]}
-                    {' '}
-                  </td>
-                </tr>
-              ))}
+              {tags.map((ecoa) => {
+                return (
+                  <tr key={ecoa}>
+                    <td>{ecoa[0]} </td>
+                    <td>{ecoa[1]} </td>
+                    <td>{ecoa[2]} </td>
+
+                  </tr>
+                );
+              })}
             </table>
           </Panel>
         </Collapse>
       ),
+    },    
+    {
+      title: "Notas",
+      dataIndex: "notas",
+      id: "notas",
     },
   ];
 
@@ -142,6 +147,8 @@ function OnFilterProfesor(props) {
         profesoresId.map(async (key) => await profesorService.getProfesorById(key)),
       );
 
+    
+
       // Obtienen los ECOAS y CIPs
       const cips = {};
       const ecoas = {};
@@ -154,11 +161,10 @@ function OnFilterProfesor(props) {
           if (!ecoas[key]) {
             ecoas[key] = [];
           }
-          ecoas[key].push([row.id_materia, row.calificacion_ecoa]);
+          ecoas[key].push([row.id_materia, row.calificacion_ecoa, row.fecha.substring(0,10)]);
           return cips, ecoas;
         })),
       );
-
       for (const key in cips) {
         for (const row in cips[key]) {
           cips[key][row] = [
@@ -216,6 +222,7 @@ function OnFilterProfesor(props) {
       /// ////////////////////////////////////////
       const loadedProfesores = [];
       for (const key in profesorRows) {
+        
         let binToString;
         const rows = { ...profesorRows[key][0] };
         if (rows.clase_en_ingles === true) {
@@ -231,9 +238,11 @@ function OnFilterProfesor(props) {
         rows.ecoa = ecoas[rows.id];
 
         loadedProfesores.push(rows);
+        
       }
       props.onChange(loadedProfesores);
       setProfesorInfo(loadedProfesores);
+
     } catch (error) {
       console.log(error);
     }

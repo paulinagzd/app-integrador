@@ -26,8 +26,10 @@ async function createMaestriaAceptada(data) {
 
 async function getAllMaestriasAceptadas() {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/maestria_aceptada`, requestOptions);
@@ -37,8 +39,10 @@ async function getAllMaestriasAceptadas() {
 
 async function getMaestriasByMateria(id) {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
+
   };
 
   const res = await fetch(`${config.apiUrl}/maestria_aceptada/${id}`, requestOptions);

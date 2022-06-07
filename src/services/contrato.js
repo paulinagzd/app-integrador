@@ -3,8 +3,9 @@ import { config } from '../config';
 
 async function getAllContratos() {
   const requestOptions = {
-    method: 'GET',
-    mode: 'cors',
+    method: "GET",
+    mode: "cors",
+    headers: getTokenHeader(),
   };
 
   const res = await fetch(`${config.apiUrl}/tipo_contrato`, requestOptions);

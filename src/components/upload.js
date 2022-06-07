@@ -1,10 +1,14 @@
 import './upload.css'
-import { Menu, Dropdown, message, Space } from 'antd';
+import { Menu, Dropdown, message, Space, notification } from 'antd';
 import { DownOutlined, MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons';
-import {React, useState, useCallback} from 'react';
+import {React, useState, useCallback, useEffect} from 'react';
 import {useDropzone} from 'react-dropzone';
 import Papa from 'papaparse';
 import { createService } from '../services/create';
+import { useNavigate } from "react-router-dom";
+import { authenticationServices } from "../services/authentication";
+
+
 
 
 function Upload() {
@@ -33,15 +37,10 @@ function Upload() {
   const [chosenItem, setChosenItem] = useState(items.at(0));
   const [parsedCsvData, setParsedCsvData] = useState([]);
 
+
   const onClick = (e) => {
-    //console.log('click', e);
-    //console.log(e.key);
     const clicked = items.find(({ key }) => key === e.key);
-    //console.log(clicked);
-    //console.log(clicked.label);
     setChosenItem(clicked);
-    //console.log(chosenItem);
-    //console.log(label);
   };
 
   const menu = (
@@ -64,19 +63,32 @@ function Upload() {
     });
   };
 
-
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = acceptedFiles => {
     if (acceptedFiles.length) {
       //console.log("Acepted Files: ", acceptedFiles);
       //console.log("File: ", acceptedFiles[0]);
       parseFile(acceptedFiles[0]);
-      console.log("Parsed CSV: ", parsedCsvData);
+    }
+  };
+  
+  const nav = useNavigate();
+
+  useEffect(() => {
+    if(!authenticationServices.currentUserValue){
+      nav("/login");
+    }
+  }, [authenticationServices.currentUserValue]); 
+  
+  useEffect(() => {
+    if (parsedCsvData.length){
+      //console.log("Parsed CSV: ", parsedCsvData);
       for(var x in parsedCsvData){
-        console.log(parsedCsvData[x])
+        //console.log(parsedCsvData[x])
         create(parsedCsvData[x]);
       }
+      setParsedCsvData([]);
     }
-  }, []);
+  }, [parsedCsvData]);
 
   const create = async (data) => {
     try {
@@ -114,9 +126,6 @@ function Upload() {
           response = await
           createService.createMateriasImpartidas(data);
           console.log("Materia Impartida Creada Con Exito");
-          //response = await
-          //createService.createECOA(data);
-          //console.log("ECOA Creada Con Exito");
           break;
         case '7':
           response = await
@@ -127,8 +136,19 @@ function Upload() {
     } catch (error) {
       console.log(`Error Agregando ${chosenItem.label}`)
       console.log(error);
+      const errMsg = error.message.toString();
+      errorNotification(errMsg);
     }
   }
+
+  const errorNotification = (msg) => {
+    notification['error']({
+      message: 'Error',
+      description: msg,
+      duration: null, 
+
+    });
+  };
 
   const {
     getRootProps,
@@ -139,6 +159,7 @@ function Upload() {
     isDragReject,
   } = useDropzone({
     onDrop,
+    //onDropAccepted,
     accept: 'text/csv',
   });
 
