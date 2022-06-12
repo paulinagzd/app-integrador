@@ -38,15 +38,6 @@ const SubjectModalForm = ({
     selected, action, onCancelModal, index, visibleMateriaModal,
   } = usePageProvider();
 
-  // maestrias aceptadas
-  // cips siendo csvs
-
-  // if (action !== 'add') {
-
-  // }
-
-  console.log(selected, "INDEX", index);
-
   useEffect(() => {
     form.resetFields();
   });

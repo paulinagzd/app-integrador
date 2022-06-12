@@ -19,7 +19,7 @@ export const TopButtons = ({ setVisible, type, setDeleteWarning }) => (
     >
       Agregar {type}
     </Button>
-    <Button
+    {/* <Button
       size="small"
       shape="square"
       style={{
@@ -34,6 +34,6 @@ export const TopButtons = ({ setVisible, type, setDeleteWarning }) => (
       }}
     >
       Borrar {type}
-    </Button>
+    </Button> */}
   </span>
 );
