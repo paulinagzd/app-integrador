@@ -256,18 +256,6 @@ const ProfessorModalForm = ({
   const handleOk = () => {
     const formData = form.getFieldsValue(true);
     onCreate(formData, selected, action, index);
-    // console.log(formData, form)
-    // form
-    //   // .getFieldsValue(true)
-    //   .validateFields(formData)
-    //   .then((values) => {
-    //     form.resetFields();
-    //     console.log('VALUES', values);
-    //     onCreate(values, selected, action, index);
-    //   })
-    //   .catch((info) => {
-    //     console.log('Validate Failed:', info);
-    //   });
     setConfirmLoading(true);
     setTimeout(() => {
       // setVisible(false);
@@ -345,25 +333,6 @@ const ProfessorModalForm = ({
           ))}
         </Steps>
         <div className="steps-content">{steps[current].content}</div>
-        <div>
-          {/* <div className="steps-action">
-            {current < steps.length - 1 && (
-            <Button type="primary" onClick={() => next()}>
-              Next
-            </Button>
-            )}
-            {current === steps.length - 1 && (
-            <Button type="primary">
-              Done
-            </Button>
-            )}
-            {current > 0 && (
-            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-              Previous
-            </Button>
-            )}
-          </div> */}
-        </div>
       </Form>
     </Modal>
   );

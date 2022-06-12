@@ -49,7 +49,6 @@ export const useMateriasController = () => {
 
   useEffect(() => {
     dataFetchMateriasHandler();
-    console.log('uso Efecto');
   }, [dataFetchMateriasHandler]);
 
   const rowSelection = {
@@ -68,10 +67,9 @@ export const useMateriasController = () => {
   };
 
   const editMateria = async (data, selected, index) => {
-    console.log('caigo onEdit', selected);
+    console.log('onEdit', selected);
     try {
       const response = await materiaService.editMateria(data, selected.codigo);
-      console.log('editMateriaResponse', response);
       const temp = [...materiaInfo];
       temp[index] = selected;
       setMateriaInfo(temp);
@@ -81,7 +79,7 @@ export const useMateriasController = () => {
   };
 
   const onCreateM = (values, selected, action, index) => {
-    console.log('caigo onCreate', values, action);
+    console.log('onCreate', values, action);
     delete values.maestrias_aceptadas;
 
     if (action === 'add') {
@@ -91,8 +89,6 @@ export const useMateriasController = () => {
     if (action === 'edit') {
       editMateria(values, selected, index);
     }
-
-    // setVisibleModal(false);
   };
 
   const onDeleteOk = () => {

@@ -34,7 +34,6 @@ export const useController = () => {
       label: m.nombre,
       value: m.nombre,
     }));
-    console.log('res', res);
     return res;
   };
 
@@ -46,7 +45,6 @@ export const useController = () => {
         value: nombre,
       };
     });
-    console.log('res ESP', res);
     return res;
   };
 
@@ -58,18 +56,15 @@ export const useController = () => {
         value: nombre,
       };
     });
-    console.log('res MAT', res);
     return res;
   };
 
   const goToMateria = useCallback(async (payload) => {
-    console.log('goto', payload);
+    // console.log('goto', payload);
 
     const res = await getMateriaIdByCodigo(payload.codigo);
-    console.log(res);
 
     const resM = await getMaestriasAceptadas(payload.id);
-    console.log(resM);
 
     const forRes = parseDefaultObject(resM);
     setSelected({ ...res[0], maestrias: forRes });
@@ -77,9 +72,8 @@ export const useController = () => {
   });
 
   const goToProfesor = useCallback(async (payload) => {
-    console.log('goto', payload);
+    // console.log('goto', payload);
     const res = await getProfesorById(payload.id);
-    console.log(res);
 
     const temas = await getEspecialidadByProfesor(payload.id);
     const parsedTemas = parseEspecialidades(temas);
@@ -104,7 +98,6 @@ export const useController = () => {
   });
 
   const onSetVisible = (type, payload, a, i) => {
-    console.log("ACTION", a)
     setAction(a);
     setIndex(i);
     if (payload) {
@@ -131,7 +124,7 @@ export const useController = () => {
   };
 
   const onCheck = (checkedVal) => {
-    console.log(selected)
+    // console.log(selected)
     setChecked(checkedVal)
     if (selected !== {}) {
       setSelected({
