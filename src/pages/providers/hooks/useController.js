@@ -11,6 +11,7 @@ export const useController = () => {
   const [selected, setSelected] = useState({});
   const [action, setAction] = useState();
   const [index, setIndex] = useState();
+  const [checked, setChecked] = useState(selected && selected.clase_en_ingles ? selected.clase_en_ingles : false);
 
   const {
     getMateriaIdByCodigo,
@@ -21,7 +22,7 @@ export const useController = () => {
   const { getEspecialidadByProfesor } = especialidadService;
   const { getGradosByProfesor } = gradoService;
 
-  useEffect(() => { console.log('selected', selected); });
+  useEffect(() => { console.log(selected); });
 
   // eslint-disable-next-line no-unused-vars
   const onEditMateria = (payload) => {
@@ -33,7 +34,6 @@ export const useController = () => {
       label: m.nombre,
       value: m.nombre,
     }));
-    console.log('res', res);
     return res;
   };
 
@@ -45,7 +45,6 @@ export const useController = () => {
         value: nombre,
       };
     });
-    console.log('res ESP', res);
     return res;
   };
 
@@ -57,18 +56,14 @@ export const useController = () => {
         value: nombre,
       };
     });
-    console.log('res MAT', res);
     return res;
   };
 
   const goToMateria = useCallback(async (payload) => {
-    console.log('goto', payload);
 
     const res = await getMateriaIdByCodigo(payload.codigo);
-    console.log(res);
 
     const resM = await getMaestriasAceptadas(payload.id);
-    console.log(resM);
 
     const forRes = parseDefaultObject(resM);
     setSelected({ ...res[0], maestrias: forRes });
@@ -76,9 +71,8 @@ export const useController = () => {
   });
 
   const goToProfesor = useCallback(async (payload) => {
-    console.log('goto', payload);
+    // console.log('goto', payload);
     const res = await getProfesorById(payload.id);
-    console.log(res);
 
     const temas = await getEspecialidadByProfesor(payload.id);
     const parsedTemas = parseEspecialidades(temas);
@@ -125,24 +119,29 @@ export const useController = () => {
     } else {
       setVisibleProfesorModal(false);
     }
-    setSelected(null);
+    if (selected !== {}) setSelected(null);
   };
 
-  const onCheck = (checked) => {
-    setSelected({
-      ...selected,
-      clase_en_ingles: checked,
-    });
+  const onCheck = (checkedVal) => {
+    console.log(selected, checkedVal)
+    setChecked(checkedVal)
+    if (selected !== {}) {
+      setSelected({
+        ...selected,
+        clase_en_ingles: checkedVal,
+      });
+    }
   };
 
   return {
     onSetVisible,
     onCancelModal,
-    onCheck,
+    // onCheck,
     visibleMateriaModal,
     visibleProfesorModal,
     selected,
     action,
     index,
+    checked,
   };
 };

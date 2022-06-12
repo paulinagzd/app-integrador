@@ -31,10 +31,9 @@ export const useProfesoresController = () => {
   }, []);
 
   const editProfesor = async (data, selected, index) => {
-    console.log('caigo onEdit', selected);
+    console.log('onEdit', selected);
     try {
       const response = await profesorService.editProfesor(data, selected.nomina);
-      console.log('editprofesorresponse', response);
       const temp = [...profesorInfo];
       temp[index] = selected;
       setProfesorInfo(temp);
@@ -44,32 +43,13 @@ export const useProfesoresController = () => {
     }
   };
 
-  // const createProfesor = async (data, selected, index) => {
-  //   console.log("caigo Create", selected)
-  //   try {
-  //     const response = await profesorService.createProfesor(data);
-  //     console.log('createProfesorRes', response);
-  //     let temp = [...profesorInfo];
-  //     temp[index] = selected;
-  //     setProfesorInfo(temp);
-  //     // onCancelModal('materia');
-
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const onCreateP = (values, selected, action, index) => {
-    console.log('caigo onCreate', values, action);
+    console.log('onCreate', values, action);
     // delete values["maestrias_aceptadas"];
 
     if (action === 'add') {
       createService.createProfesor(values);
     }
-    // else {
-    //   // TEMP WORKAROUND
-    //   editProfesor(values, selected, index);
-    // }
 
     if (action === 'edit') {
       editProfesor(values, selected, index);

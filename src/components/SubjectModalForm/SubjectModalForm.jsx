@@ -38,15 +38,6 @@ const SubjectModalForm = ({
     selected, action, onCancelModal, index, visibleMateriaModal,
   } = usePageProvider();
 
-  // maestrias aceptadas
-  // cips siendo csvs
-
-  // if (action !== 'add') {
-
-  // }
-
-  console.log(selected);
-
   useEffect(() => {
     form.resetFields();
   });
@@ -89,7 +80,7 @@ const SubjectModalForm = ({
       mask={false}
       title="Materia"
       visible={visibleMateriaModal}
-      onCancel={onCancel}
+      onCancel={() => onCancelModal('materia')}
       onOk={handleOk}
       confirmLoading={confirmLoading}
     >
@@ -106,6 +97,7 @@ const SubjectModalForm = ({
             <Col span={12}>
               <Form.Item label="Código" name="codigo">
                 <Input
+                  disabled={action==='detail'}
                   placeholder="Código o clave"
                   name="codigo"
                   required
@@ -115,6 +107,7 @@ const SubjectModalForm = ({
             <Col span={12}>
               <Form.Item label="Nombre" name="nombre">
                 <Input
+                  disabled={action==='detail'}
                   placeholder="Nombre de la materia"
                   name="nombreMateria"
                   required
@@ -129,6 +122,7 @@ const SubjectModalForm = ({
             <Col span={8}>
               <Form.Item label="Semestre" name="semestre">
                 <InputNumber
+                  disabled={action==='detail'}
                   min={1}
                   max={8}
                   placeholder="Semestre"
@@ -139,6 +133,7 @@ const SubjectModalForm = ({
             <Col span={8}>
               <Form.Item label="Unidades de Carga" name="unidades_de_carga">
                 <InputNumber
+                  disabled={action==='detail'}
                   placeholder="Unidades de Carga"
                   name="unidadesCarga"
                 />
@@ -147,13 +142,16 @@ const SubjectModalForm = ({
             <Col span={8}>
               <Form.Item label="Plan" name="plan">
                 <Select
+                  disabled={action==='detail'}
                   options={subjectPlans}
                 />
               </Form.Item>
             </Col>
           </Row>
           <Form.Item label="CIPS" name="CIPS" extra="Ingrese los CIPS separados por comas. (Ej. 1, 2, 3...)">
-            <Input />
+            <Input
+              disabled={action==='detail'}
+            />
           </Form.Item>
           <Row gutter={{
             xs: 8, sm: 16, md: 24, lg: 32,
@@ -162,6 +160,7 @@ const SubjectModalForm = ({
             <Col span={8}>
               <Form.Item label="Tipo" name="tipo">
                 <Select
+                  disabled={action==='detail'}
                   options={subjectTypes}
                 />
               </Form.Item>
@@ -169,6 +168,7 @@ const SubjectModalForm = ({
             <Col span={8}>
               <Form.Item label="Periodo" name="periodo">
                 <Select
+                  disabled={action==='detail'}
                   options={subjectPeriods}
                 />
               </Form.Item>
@@ -176,6 +176,7 @@ const SubjectModalForm = ({
             <Col span={8}>
               <Form.Item label="Duración" name="duracion_en_semanas">
                 <Select
+                  disabled={action==='detail'}
                   options={subjectDurationWeeks}
                 />
               </Form.Item>
@@ -184,6 +185,7 @@ const SubjectModalForm = ({
           { action !== 'add' && (
             <Form.Item label="Maestrías aceptadas" name="maestrias_aceptadas">
               <Select
+                disabled={action==='detail'}
                 mode="multiple"
                 allowClear
                 style={{ width: '100%' }}
@@ -201,6 +203,7 @@ const SubjectModalForm = ({
           )}
           <Form.Item label="Comentarios" name="notas">
             <TextArea
+              disabled={action==='detail'}
               showCount
               maxLength={100}
             />
