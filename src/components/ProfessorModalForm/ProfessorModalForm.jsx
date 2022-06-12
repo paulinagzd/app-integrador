@@ -25,7 +25,7 @@ const { Step } = Steps;
 
 const GeneralInfo = () => {
   const {
-    selected, onCheck, checked, action,
+    selected, checked, action,
   } = usePageProvider();
 
   return (
@@ -131,7 +131,7 @@ const GeneralInfo = () => {
             />
           </Form.Item>
         </Col>
-        <Form.Item label="Clase en inglés?" name="clase_en_ingles">
+        {/* <Form.Item label="Clase en inglés?" name="clase_en_ingles">
           <Col span={12}>
             <Checkbox
               disabled={action==='detail'}
@@ -142,7 +142,7 @@ const GeneralInfo = () => {
               checked={checked}
             />
           </Col>
-        </Form.Item>
+        </Form.Item> */}
       </Row>
       <Form.Item label="Empresa donde trabaja" name="empresa_donde_trabaja">
         <Input
@@ -238,7 +238,7 @@ const ProfessorModalForm = ({
   const [form] = Form.useForm();
 
   const {
-    selected, action, onCancelModal, index, visibleProfesorModal, onCheck,
+    selected, action, onCancelModal, index, visibleProfesorModal,
   } = usePageProvider();
 
   const next = () => {

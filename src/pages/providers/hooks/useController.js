@@ -22,7 +22,7 @@ export const useController = () => {
   const { getEspecialidadByProfesor } = especialidadService;
   const { getGradosByProfesor } = gradoService;
 
-  useEffect(() => { console.log('selected', selected); });
+  useEffect(() => { console.log(selected); });
 
   // eslint-disable-next-line no-unused-vars
   const onEditMateria = (payload) => {
@@ -60,7 +60,6 @@ export const useController = () => {
   };
 
   const goToMateria = useCallback(async (payload) => {
-    // console.log('goto', payload);
 
     const res = await getMateriaIdByCodigo(payload.codigo);
 
@@ -124,7 +123,7 @@ export const useController = () => {
   };
 
   const onCheck = (checkedVal) => {
-    // console.log(selected)
+    console.log(selected, checkedVal)
     setChecked(checkedVal)
     if (selected !== {}) {
       setSelected({
@@ -137,7 +136,7 @@ export const useController = () => {
   return {
     onSetVisible,
     onCancelModal,
-    onCheck,
+    // onCheck,
     visibleMateriaModal,
     visibleProfesorModal,
     selected,
